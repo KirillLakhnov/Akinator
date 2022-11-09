@@ -1,0 +1,33 @@
+digraph G
+{
+	graph [dpi = 300];
+	rankdir = TB;
+	"NOD_0" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x0 \lcurrent = 0x7f9cd04060d0 | {<left> left = 0x7f9cd0406130| животное? | <right> right = 0x7f9cd0406100}"]
+	"NOD_1" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9cd04060d0 \lcurrent = 0x7f9cd0406130 | {<left> left = 0x0| полторашка | <right> right = 0x7f9cd0406160}"]
+	"NOD_2" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9cd04060d0 \lcurrent = 0x7f9cd0406180 | {<left> left = 0x7f9cd04061d0| ведет матан? | <right> right = 0x7f9cd04061b0}"]
+	"NOD_3" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9cd0406180 \lcurrent = 0x7f9cd04061d0 | {<left> left = 0x7f9cd0406220| ведет у фпми? | <right> right = 0x7f9cd0406200}"]
+	"NOD_4" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9cd04061d0 \lcurrent = 0x7f9cd0406220 | {<left> left = 0x0| редкозубов | <right> right = 0x7f9cd0406250}"]
+	"NOD_5" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9cd04061d0 \lcurrent = 0x7f9cd0406270 | {<left> left = 0x0| петрович | <right> right = 0x7f9cd04062a0}"]
+	"NOD_6" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9cd0406180 \lcurrent = 0x7f9cd04062c0 | {<left> left = 0x7f9cd0406300| поет? | <right> right = 0x7f9cd04062f0}"]
+	"NOD_7" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9cd04062c0 \lcurrent = 0x7f9cd0406300 | {<left> left = 0x0| Алла Пугачева | <right> right = 0x7f9cd0406330}"]
+	"NOD_8" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9cd04062c0 \lcurrent = 0x7f9cd0406350 | {<left> left = 0x0| дед | <right> right = 0x7f9cd0406380}"]
+	"NOD_0" -> "NOD_1"[style = "bold", color = "#df1b1bdf"]
+	"NOD_0" -> "NOD_2"[style = "bold", color = "#df1b1bdf"]
+	"NOD_2" -> "NOD_3"[style = "bold", color = "#df1b1bdf"]
+	"NOD_3" -> "NOD_4"[style = "bold", color = "#df1b1bdf"]
+	"NOD_3" -> "NOD_5"[style = "bold", color = "#df1b1bdf"]
+	"NOD_4" -> "NOD_6"[style = "bold", color = "#df1b1bdf"]
+	"NOD_6" -> "NOD_7"[style = "bold", color = "#df1b1bdf"]
+	"NOD_6" -> "NOD_8"[style = "bold", color = "#df1b1bdf"]
+	"NOD_7" -> "NOD_9"[style = "bold", color = "#df1b1bdf"]
+
+}
