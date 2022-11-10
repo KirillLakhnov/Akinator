@@ -1,25 +1,26 @@
 #include "akinator.h"
 
-extern int work_synthesizer = 0;
-
 void main_menu (struct Tree* tree)
 {
     screen_clear ();
+
+    static int work_synthesizer_main = 1;
 
     printf ("Выбери соответствующий режим игры\n"
             "[" RED_TEXT(1) "] Отгадывание\n"
             "[" RED_TEXT(2) "] Определения\n"
             "[" RED_TEXT(3) "] Сравнения обьектов\n"
+            "[" RED_TEXT(4) "] Просмотреть базу данных\n"
             "[" RED_TEXT(5) "] Выход из программы\n");
 
-    SPEECH_SYNTHESIZER (work_synthesizer, "А саламаалейкум брад. Это Акинатор! Выбери соответствующий режим игры!", 0);
+    SPEECH_SYNTHESIZER (work_synthesizer_main, "А саламаалейкум брад. Это Акинатор! Выбери соответствующий режим игры!", 0);
 
+    work_synthesizer_main = 0;
     tree_ctor (tree);
     tree_creater (tree);
 
     processing_selected_mode (tree);
 }
-
 
 void processing_selected_mode (struct Tree* tree)
 {
@@ -35,6 +36,8 @@ void processing_selected_mode (struct Tree* tree)
             break;
         case COMMAND_3: 
             object_comparison_menu (tree); 
+            break;
+        case COMMAND_4:
             break;
         case COMMAND_5:
             screen_clear ();
@@ -68,6 +71,7 @@ void guessing_mode (struct Tree* tree, struct Knot* current_knot)
 
     printf ("Это %s? ["  RED_TEXT(Y)"/" RED_TEXT(N) "]\n", current_knot->string);
 
+    SPEECH_SYNTHESIZER (work_synthesizer, "Это", 0);
     SPEECH_SYNTHESIZER (work_synthesizer, current_knot->string, 1);
     
     processing_selected_response (tree, current_knot);
@@ -105,7 +109,7 @@ void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
                 char new_object[MAX_STR_SIZE] = "";
                 input_word (new_object);
 
-                if (tree_search (tree, new_object) == 0)
+                if (tree_search (tree, new_object) != 0)
                 {
                     printf ("Введите отличительный признак вашего слова от \"%s\": ", current_knot->string);
                     SPEECH_SYNTHESIZER (work_synthesizer, "Введите отличительный признак вашего слова", 0);
@@ -117,7 +121,7 @@ void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
                 }
                 else
                 {
-                    printf ("Объект \"%s\" не найден в базе данных \"%s\"\n", new_object, tree->file_database->file_name);
+                    printf ("Объект \"%s\" был найден в базе данных \"%s\"\n", new_object, tree->file_database->file_name);
                 }
 
                 menu_after_game (tree);
@@ -195,6 +199,10 @@ void definition_mode (struct Tree* tree)
     {
         screen_clear ();
         printf ("Объект \"%s\" не найден в базе данных \"%s\"\n", object, tree->file_database->file_name);
+
+        SPEECH_SYNTHESIZER (work_synthesizer, "объект", 0);
+        SPEECH_SYNTHESIZER (work_synthesizer, object, 1);
+        SPEECH_SYNTHESIZER (work_synthesizer, "не найден в базе данных", 0);
     }
     else
     {
@@ -202,27 +210,40 @@ void definition_mode (struct Tree* tree)
 
         printf ("%s - это", object);
 
+        SPEECH_SYNTHESIZER (work_synthesizer, object, 1);
+        SPEECH_SYNTHESIZER (work_synthesizer, "это", 0);
+
         for (int i = 0; i < path_element->size - 2; i++)
         {   
             if ((path_element->data)[i]->left == (path_element->data)[i + 1])
             {
                 printf(" %s,", (path_element->data)[i]->string);
+
+                SPEECH_SYNTHESIZER (work_synthesizer, (path_element->data)[i]->string, 1);
             }
 
             if ((path_element->data)[i]->right == (path_element->data)[i + 1])
             {
                 printf(" не %s,", (path_element->data)[i]->string);
+
+                SPEECH_SYNTHESIZER (work_synthesizer, "не", 1);
+                SPEECH_SYNTHESIZER (work_synthesizer, (path_element->data)[i]->string, 1);
             }
         }
 
         if ((path_element->data)[path_element->size - 2]->left  == (path_element->data)[path_element->size - 1])
             {
                 printf(" %s.\n", (path_element->data)[path_element->size - 2]->string);
+
+                SPEECH_SYNTHESIZER (work_synthesizer, (path_element->data)[path_element->size - 2]->string, 1);
             }
 
         if ((path_element->data)[path_element->size - 2]->right == (path_element->data)[path_element->size - 1])
         {
             printf(" не %s.\n", (path_element->data)[path_element->size - 2]->string);
+
+            SPEECH_SYNTHESIZER (work_synthesizer, "не", 1);
+            SPEECH_SYNTHESIZER (work_synthesizer, (path_element->data)[path_element->size - 2]->string, 1);
         }
     }
 
@@ -277,11 +298,19 @@ void object_comparison_mode (struct Tree* tree)
     {
         screen_clear ();
         printf ("Объект \"%s\" не найден в базе данных \"%s\"\n", object_1, tree->file_database->file_name);
+
+        SPEECH_SYNTHESIZER (work_synthesizer, "объект", 0);
+        SPEECH_SYNTHESIZER (work_synthesizer, object_1, 1);
+        SPEECH_SYNTHESIZER (work_synthesizer, "не найден в базе данных", 0);
     }
     else if (path_element_1->size == 0)
     {
         screen_clear ();
         printf ("Объект \"%s\" не найден в базе данных \"%s\"\n", object_2, tree->file_database->file_name);
+
+        SPEECH_SYNTHESIZER (work_synthesizer, "объект", 0);
+        SPEECH_SYNTHESIZER (work_synthesizer, object_2, 1);
+        SPEECH_SYNTHESIZER (work_synthesizer, "не найден в базе данных", 0);
     }
     else
     {

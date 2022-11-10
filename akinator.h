@@ -15,6 +15,8 @@
 
 #define RED_TEXT(text) "\e[31m" #text "\e[0m"
 
+const int work_synthesizer = 1;
+
 const size_t MAX_STR_SIZE = 250;
 
 enum COMMAND {
