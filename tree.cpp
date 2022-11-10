@@ -2,10 +2,15 @@
 
 void tree_ctor (struct Tree* tree)
 {
-    BufferCreater (tree->file_database, tree->buffer_database);
-
     tree->size = 0;
     tree->code_error = 0;
+
+    if (BufferCreater (tree->file_database, tree->buffer_database) != GOOD_WORKING)
+    {
+        printf ("Error BufferCreater in tree.cpp on line = %d", __LINE__);
+        tree->code_error |= TREE_ERROR_BUFFER_CREATER;
+        abort ();
+    }
 
     tree->current_position_buffer = tree->buffer_database->file_buffer;
 
@@ -18,20 +23,67 @@ void tree_dtor (struct Tree* tree)
 
     tree->file_database->file_name = nullptr;
 
+    knot_dtor (tree->root);
+
+    tree->root = nullptr;
     tree->code_error = DTOR_SIZE_T;
     tree->size = DTOR_SIZE_T;
 }
 
+void knot_dtor (struct Knot* current_knot)
+{
+    assert (current_knot);
+
+    if (current_knot->left != nullptr) 
+    {
+        knot_dtor (current_knot->left);
+    }
+    if (current_knot->right != nullptr) 
+    {
+        knot_dtor (current_knot->right);
+    }
+
+    current_knot->prev = nullptr;
+    current_knot->right = nullptr;
+    current_knot->left = nullptr;
+
+    current_knot->length = DTOR_INT;
+    
+    if (current_knot->string != nullptr)
+    {
+        free (current_knot->string);
+        current_knot->string = nullptr;
+    }
+}
+
 void tree_creater (struct Tree* tree)
 {
+    FILE* base = fopen (tree->file_database->file_name, "rb");
+    if (base == nullptr)
+    {
+        printf ("Error fopen in tree.cpp on line = %d", __LINE__);
+        tree->code_error |= TREE_WRONG_NAME_DATA_BASE;
+        abort ();
+    }
+
     struct Knot* current_knot = tree->root;
 
     char* bracket = (char*) calloc (2, sizeof(char));
+    if (bracket == nullptr)
+    {
+        printf ("Error calloc in tree.cpp on line = %d", __LINE__);
+        tree->code_error |= TREE_ERROR_CALLOC;         
+    }
 
     while (tree->buffer_database->file_buffer + tree->buffer_database->size_buffer > tree->current_position_buffer)
     {
         int lenght = 0;
-        sscanf (tree->current_position_buffer, "%s %n", bracket, &lenght);
+        if (sscanf (tree->current_position_buffer, "%s %n", bracket, &lenght) != 1)
+        {
+            printf ("Error sscanf in tree.cpp on line = %d", __LINE__);
+            tree->code_error |= TREE_ERROR_SYNTAX_IN_BASE; 
+            abort ();
+        }
 
         if (strcmp (bracket, "{") == 0)
         {
@@ -54,16 +106,29 @@ void tree_creater (struct Tree* tree)
                 current_knot = new_knot;
             }
         }
+        else
+        {
+            tree->code_error |= TREE_ERROR_SYNTAX_IN_BASE; 
+            abort ();
+        }
     }
 
     free (bracket);
+    fclose (base);
 }
 
 struct Knot* knot_creater (struct Tree* tree, struct Knot* prev)
 {
     struct Knot* current_knot = (Knot*) calloc (1, sizeof (Knot));
+    if (current_knot == nullptr)
+    {
+        printf ("Error calloc in tree.cpp on line = %d", __LINE__);
+        tree->code_error |= TREE_ERROR_CALLOC;
+        abort ();
+    }
 
     tree->size++;
+
     current_knot->prev = prev;
     current_knot->left = nullptr;
     current_knot->right = nullptr;
@@ -71,38 +136,44 @@ struct Knot* knot_creater (struct Tree* tree, struct Knot* prev)
     tree->current_position_buffer = strchr (tree->current_position_buffer, '{');
     if (tree->current_position_buffer == nullptr)
     {
-        tree->code_error |=  TREE_ERROR_SYNTAX_IN_BASE;
+        tree->code_error |= TREE_ERROR_SYNTAX_IN_BASE;
         abort ();
     }
 
     char* pointer_begin = strchr (tree->current_position_buffer, '"');
     if (pointer_begin == nullptr)
     {
-        tree->code_error |=  TREE_ERROR_SYNTAX_IN_BASE;
+        tree->code_error |= TREE_ERROR_SYNTAX_IN_BASE;
         abort ();
     }
 
     char* pointer_end = strchr (pointer_begin + 1, '"');
     if (pointer_end == nullptr)
     {
-        tree->code_error |=  TREE_ERROR_SYNTAX_IN_BASE;
+        tree->code_error |= TREE_ERROR_SYNTAX_IN_BASE;
         abort ();
     }
 
-    current_knot->lenght = pointer_end - pointer_begin;
-    current_knot->string = (char*) calloc (current_knot->lenght, sizeof (char));
+    current_knot->length = pointer_end - pointer_begin;
+    current_knot->string = (char*) calloc (current_knot->length, sizeof (char));
+    if (current_knot->string == nullptr)
+    {
+        printf ("Error calloc in tree.cpp on line = %d", __LINE__);
+        tree->code_error |= TREE_ERROR_CALLOC;
+        abort ();
+    }
     
     *pointer_end = '\0';
-    strcpy (current_knot->string, pointer_begin + 1);
+
+    if (strcpy (current_knot->string, pointer_begin + 1) == nullptr)
+    {
+        printf ("Error strcpy in tree.cpp on line = %d", __LINE__);
+        tree->code_error |= TREE_ERROR_STRCPY;
+    }
 
     tree->current_position_buffer = pointer_end + 1;
 
     return current_knot;
-}
-
-void tree_search ()
-{
-
 }
 
 //-----------------------------------------------------------------------------------

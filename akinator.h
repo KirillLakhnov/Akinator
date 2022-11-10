@@ -22,6 +22,7 @@ enum COMMAND {
     COMMAND_2  = 50,
     COMMAND_3  = 51,
     COMMAND_4  = 52,
+    COMMAND_5  = 53,
 
     ANSWER_YES = 89,
     ANSWER_NO  = 78,
@@ -29,28 +30,41 @@ enum COMMAND {
 
 void main_menu (struct Tree* tree);
 
+void processing_selected_mode (struct Tree* tree);
+
+//---------------------------------------------------------------------------------
+
 void guessing_menu (struct Tree* tree);
 
 void guessing_mode (struct Tree* tree, struct Knot* current_knot);
+
+void processing_selected_response (struct Tree* tree, struct Knot* current_knot);
+
+void processing_selected_mode_after_game (struct Tree* tree);
+
+void menu_after_game (struct Tree* tree);
+
+//---------------------------------------------------------------------------------
 
 void definition_menu (struct Tree* tree);
 
 void definition_mode (struct Tree* tree);
 
-void object_comparison_menu ();
-
-void processing_selected_mode (struct Tree* tree);
-
-void processing_selected_response (struct Tree* tree, struct Knot* current_knot);
-
-void menu_after_game (struct Tree* tree);
-
-void processing_selected_mode_after_game (struct Tree* tree);
-
 void menu_after_definition (struct Tree* tree);
 
-void processing_selected_mode_after_definition (struct Tree* tree);
+//---------------------------------------------------------------------------------
 
+void object_comparison_menu (struct Tree* tree);
+
+void object_comparison_mode (struct Tree* tree);
+
+void menu_after_comparison (struct Tree* tree);
+
+//---------------------------------------------------------------------------------
+
+void processing_selected_mode_after_def_cmp (struct Tree* tree);
+
+//---------------------------------------------------------------------------------
 int get_command();
 
 int get_word (char* word);

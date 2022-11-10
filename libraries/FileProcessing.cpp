@@ -139,7 +139,6 @@ void BufferTransferPointer (struct Text* text_info)
 void TextDtor (struct Text* text_info)
 {
     assert(text_info->file_buffer);
-    assert(text_info->line_info);
 
     free(text_info->file_buffer);
     free(text_info->line_info);

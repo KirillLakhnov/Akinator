@@ -13,10 +13,16 @@
 
 const size_t NAME_MAX_LEN = 100;
 const size_t DTOR_SIZE_T = 0xBABADEDA;
+const int DTOR_INT = 0xBABADEAD;
 
 enum TREE_ERROR
 {
     TREE_ERROR_SYNTAX_IN_BASE = 1 << 0,
+    TREE_WRONG_NAME_DATA_BASE = 1 << 1,
+
+    TREE_ERROR_CALLOC         = 1 << 2,
+    TREE_ERROR_STRCPY         = 1 << 3,
+    TREE_ERROR_BUFFER_CREATER = 1 << 4,
 };
 
 struct Knot
@@ -26,7 +32,7 @@ struct Knot
     struct Knot* right;
     struct Knot* left;
 
-    int lenght;
+    int length;
     char* string;
 };
 
@@ -46,6 +52,8 @@ struct Tree
 void tree_ctor (struct Tree* tree);
 
 void tree_dtor (struct Tree* tree);
+
+void knot_dtor (struct Knot* current_knot);
 
 void tree_creater (struct Tree* tree);
 

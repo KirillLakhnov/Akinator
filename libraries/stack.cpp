@@ -103,11 +103,10 @@ void StackDtor (struct Stack* stack)
     stack->func_info.name_function_stack_cpp = nullptr;
     stack->func_info.number_line_stack_cpp = DTOR_VALUE;
 
-    for (int i = 0; i < stack->capacity; i++)
-    {  
-        stack->data[i] = NULL_SPECIFIER;
+    if (((size_t*)stack->data - 1) != nullptr)
+    {
+        free (((size_t*)stack->data - 1));
     }
-    free (((size_t*)stack->data - 1));
 #else
     for (int i = 0; i < stack->capacity; i++)
     {  
@@ -120,6 +119,11 @@ void StackDtor (struct Stack* stack)
 
 void FillingWithPoisonStack (struct Stack* stack)
 {
+    if (stack->data != nullptr)
+    {
+        stack->data = nullptr;
+    }
+
     stack->size = DTOR_VALUE;
     stack->capacity = DTOR_VALUE;
     stack->code_of_error = DTOR_VALUE;
@@ -128,8 +132,6 @@ void FillingWithPoisonStack (struct Stack* stack)
     stack->func_info.log_file_name = nullptr;
     stack->func_info.name_stack = nullptr;
     stack->func_info.number_line_stack_name_main = DTOR_VALUE;
-
-    stack->data = nullptr;
 }
 
 int StackRealloc (struct Stack* stack, size_t new_capacity)
