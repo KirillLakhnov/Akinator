@@ -18,17 +18,13 @@
 const size_t MAX_STR_SIZE = 250;
 
 enum COMMAND {
-    COMMAND_GUESSING          = 49,
-    COMMAND_DEFINITION        = 50,
-    COMMAND_OBJECT_COMPARISON = 51,
-    COMMAND_EXITING_PROGRAMM  = 52,
+    COMMAND_1  = 49,
+    COMMAND_2  = 50,
+    COMMAND_3  = 51,
+    COMMAND_4  = 52,
 
     ANSWER_YES = 89,
     ANSWER_NO  = 78,
-
-    COMMAND_AGAIN       = 49,
-    COMMAND_UPDATE_BASE = 50,
-    COMMAND_OUTPUT_MAIN = 51,
 };
 
 void main_menu (struct Tree* tree);
@@ -51,9 +47,15 @@ void menu_after_game (struct Tree* tree);
 
 void processing_selected_mode_after_game (struct Tree* tree);
 
+void menu_after_definition (struct Tree* tree);
+
+void processing_selected_mode_after_definition (struct Tree* tree);
+
 int get_command();
 
 int get_word (char* word);
+
+void input_word (char* word);
 
 //---------------------------------------------------------------------------------
 
@@ -64,5 +66,9 @@ void update_base_print (FILE* base, struct Tree* tree, struct Knot* knot_root);
 void update_base (struct Tree* tree);
 
 //---------------------------------------------------------------------------------
+
+struct Stack* tree_search (struct Tree* tree, const char* object);
+
+int node_search(const char* object, struct Knot* current_knot, struct Stack* path_element);
 
 #endif // AKINATOR_H

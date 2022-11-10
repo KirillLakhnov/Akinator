@@ -1,0 +1,69 @@
+digraph G
+{
+	graph [dpi = 300];
+	rankdir = TB;
+	"NOD_0" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x0 \lcurrent = 0x7f9ebe405ef0 | {<left> left = 0x7f9ebe405f50| животное | <right> right = 0x7f9ebe405f20}"]
+	"NOD_1" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe405ef0 \lcurrent = 0x7f9ebe405f50 | {<left> left = 0x7f9ebe405f90| черное | <right> right = 0x7f9ebe405f80}"]
+	"NOD_2" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe405f50 \lcurrent = 0x7f9ebe405f90 | {<left> left = 0x7f9ebe405fd0| птица | <right> right = 0x7f9ebe405fc0}"]
+	"NOD_3" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe405f90 \lcurrent = 0x7f9ebe405fd0 | {<left> left = 0x0| ворона | <right> right = 0x7f9ebe406000}"]
+	"NOD_4" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe405f90 \lcurrent = 0x7f9ebe406010 | {<left> left = 0x7f9ebe406050| горилла | <right> right = 0x7f9ebe406040}"]
+	"NOD_5" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406010 \lcurrent = 0x7f9ebe406050 | {<left> left = 0x7f9ebe406090| Ясин | <right> right = 0x7f9ebe406080}"]
+	"NOD_6" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406050 \lcurrent = 0x7f9ebe406090 | {<left> left = 0x7f9ebe4060e0| первокурсник | <right> right = 0x7f9ebe4060c0}"]
+	"NOD_7" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406090 \lcurrent = 0x7f9ebe4060e0 | {<left> left = 0x0| Абу Аси Халедович | <right> right = 0x7f9ebe406110}"]
+	"NOD_8" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406090 \lcurrent = 0x7f9ebe406140 | {<left> left = 0x0| Ясинчик - куратор | <right> right = 0x7f9ebe406170}"]
+	"NOD_9" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406050 \lcurrent = 0x7f9ebe406190 | {<left> left = 0x0| ты | <right> right = 0x7f9ebe4061c0}"]
+	"NOD_10" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406010 \lcurrent = 0x7f9ebe4061d0 | {<left> left = 0x0| черный котик | <right> right = 0x7f9ebe406200}"]
+	"NOD_11" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe405f50 \lcurrent = 0x7f9ebe406220 | {<left> left = 0x7f9ebe406260| плохое | <right> right = 0x7f9ebe406250}"]
+	"NOD_12" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406220 \lcurrent = 0x7f9ebe406260 | {<left> left = 0x0| Кондрашов | <right> right = 0x7f9ebe406290}"]
+	"NOD_13" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406220 \lcurrent = 0x7f9ebe4062b0 | {<left> left = 0x0| Полторашечка | <right> right = 0x7f9ebe4062e0}"]
+	"NOD_14" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe405ef0 \lcurrent = 0x7f9ebe406300 | {<left> left = 0x7f9ebe406350| ведет матан | <right> right = 0x7f9ebe406330}"]
+	"NOD_15" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406300 \lcurrent = 0x7f9ebe406350 | {<left> left = 0x7f9ebe4063a0| ведет у фпми | <right> right = 0x7f9ebe406380}"]
+	"NOD_16" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406350 \lcurrent = 0x7f9ebe4063a0 | {<left> left = 0x0| редкозубов | <right> right = 0x7f9ebe4063d0}"]
+	"NOD_17" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406350 \lcurrent = 0x7f9ebe4063f0 | {<left> left = 0x0| петрович | <right> right = 0x7f9ebe406420}"]
+	"NOD_18" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406300 \lcurrent = 0x7f9ebe406440 | {<left> left = 0x7f9ebe406480| поет | <right> right = 0x7f9ebe406470}"]
+	"NOD_19" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406440 \lcurrent = 0x7f9ebe406480 | {<left> left = 0x0| Алла Пугачева | <right> right = 0x7f9ebe4064b0}"]
+	"NOD_20" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x7f9ebe406440 \lcurrent = 0x7f9ebe4064d0 | {<left> left = 0x0| дед | <right> right = 0x7f9ebe406500}"]
+	"NOD_0" -> "NOD_1"[style = "bold", color = "#df1b1bdf"]
+	"NOD_1" -> "NOD_2"[style = "bold", color = "#df1b1bdf"]
+	"NOD_2" -> "NOD_3"[style = "bold", color = "#df1b1bdf"]
+	"NOD_2" -> "NOD_4"[style = "bold", color = "#df1b1bdf"]
+	"NOD_4" -> "NOD_5"[style = "bold", color = "#df1b1bdf"]
+	"NOD_5" -> "NOD_6"[style = "bold", color = "#df1b1bdf"]
+	"NOD_6" -> "NOD_7"[style = "bold", color = "#df1b1bdf"]
+	"NOD_6" -> "NOD_8"[style = "bold", color = "#df1b1bdf"]
+	"NOD_7" -> "NOD_9"[style = "bold", color = "#df1b1bdf"]
+	"NOD_8" -> "NOD_10"[style = "bold", color = "#df1b1bdf"]
+	"NOD_9" -> "NOD_11"[style = "bold", color = "#df1b1bdf"]
+	"NOD_11" -> "NOD_12"[style = "bold", color = "#df1b1bdf"]
+	"NOD_11" -> "NOD_13"[style = "bold", color = "#df1b1bdf"]
+	"NOD_12" -> "NOD_14"[style = "bold", color = "#df1b1bdf"]
+	"NOD_14" -> "NOD_15"[style = "bold", color = "#df1b1bdf"]
+	"NOD_15" -> "NOD_16"[style = "bold", color = "#df1b1bdf"]
+	"NOD_15" -> "NOD_17"[style = "bold", color = "#df1b1bdf"]
+	"NOD_16" -> "NOD_18"[style = "bold", color = "#df1b1bdf"]
+	"NOD_18" -> "NOD_19"[style = "bold", color = "#df1b1bdf"]
+	"NOD_18" -> "NOD_20"[style = "bold", color = "#df1b1bdf"]
+	"NOD_19" -> "NOD_21"[style = "bold", color = "#df1b1bdf"]
+
+}

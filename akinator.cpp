@@ -27,8 +27,6 @@ void guessing_menu (struct Tree* tree)
     struct Knot* current_knot = tree->root;
 
     guessing_mode (tree, current_knot);
-
-
 }
 
 void guessing_mode (struct Tree* tree, struct Knot* current_knot)
@@ -46,7 +44,7 @@ void definition_menu (struct Tree* tree)
 {
     screen_clear ();
 
-    printf ("Введите слово, определение которого хотите посмотреть.");
+    printf ("Введите слово, определение которого хотите посмотреть: ");
     SPEECH_SYNTHESIZER (work_synthesizer, "Введите слово, определение которого хотите посмотреть.", 0);
 
     definition_mode (tree);
@@ -56,7 +54,51 @@ void definition_mode (struct Tree* tree)
 {
     screen_clear ();
 
+    char object[MAX_STR_SIZE] = "";
+    input_word (object);
 
+    struct Stack* path_element = tree_search(tree, object);
+
+    printf ("\n%lu\n",path_element->size);
+    if (path_element->size == 0)
+    {
+        screen_clear ();
+        printf ("Объект \"%s\" не найден в базе данных \"%s\"\n", object, tree->file_database->file_name);
+    }
+    else
+    {
+        screen_clear ();
+
+        printf ("%s - это", object);
+
+        for (int i = 0; i < path_element->size - 2; i++)
+        {   
+            if ((path_element->data)[i]->left == (path_element->data)[i + 1])
+            {
+                printf(" %s,", (path_element->data)[i]->string);
+            }
+
+            if ((path_element->data)[i]->right == (path_element->data)[i + 1])
+            {
+                printf(" не %s,", (path_element->data)[i]->string);
+            }
+        }
+
+        if ((path_element->data)[path_element->size - 2]->left  == (path_element->data)[path_element->size - 1])
+            {
+                printf(" %s.\n", (path_element->data)[path_element->size - 2]->string);
+            }
+
+        if ((path_element->data)[path_element->size - 2]->right == (path_element->data)[path_element->size - 1])
+        {
+            printf(" не %s.\n", (path_element->data)[path_element->size - 2]->string);
+        }
+    }
+
+    StackDtor (path_element);
+    free (path_element);
+
+    menu_after_definition (tree);
 }
 
 void object_comparison_menu (struct Tree* tree)
@@ -71,16 +113,16 @@ void processing_selected_mode (struct Tree* tree)
 
     switch (mode)
     {
-        case COMMAND_GUESSING:          
+        case COMMAND_1:          
             guessing_menu (tree);          
             break;
-        case COMMAND_DEFINITION:        
+        case COMMAND_2:        
             definition_menu (tree);        
             break;
-        case COMMAND_OBJECT_COMPARISON: 
+        case COMMAND_3: 
             object_comparison_menu (tree); 
             break;
-        case COMMAND_EXITING_PROGRAMM:
+        case COMMAND_4:
             screen_clear ();
             SPEECH_SYNTHESIZER (work_synthesizer, "Прощай, плак плак", 0);
             return;
@@ -121,11 +163,7 @@ void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
                 SPEECH_SYNTHESIZER (work_synthesizer, "Эх, в этот раз не вышло. Кто же это был?", 0);
 
                 char new_object[MAX_STR_SIZE] = "";
-                while (get_word (new_object) != GOOD_WORKING)
-                {
-                    printf ("Ввод был не корректен, попробуйте еще раз. Ваше слово: ");
-                }
-                printf ("Ввод был завершен.\n");
+                input_word (new_object);
 
 //--------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------Проверка на наличие такого же объекта в дереве
@@ -133,11 +171,7 @@ void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
                 SPEECH_SYNTHESIZER (work_synthesizer, "Введите отличительный признак вашего слова", 0);
 
                 char distinctive_property[MAX_STR_SIZE] = "";
-                while (get_word (distinctive_property) != GOOD_WORKING)
-                {
-                    printf ("Ввод был не корректен, попробуйте еще раз. Отличительный признак: ");
-                }
-                printf ("Ввод был завершен.\n");
+                input_word (distinctive_property);
 
 //--------------------------------------------------------------------------------------------------------------
                 update_tree (tree, current_knot, new_object, distinctive_property);
@@ -177,24 +211,57 @@ void processing_selected_mode_after_game (struct Tree* tree)
 
     switch (mode)
     {
-    case COMMAND_AGAIN:
-        guessing_menu (tree);          
-        break;
-    case COMMAND_UPDATE_BASE:
-        update_base (tree);
-        menu_after_game (tree);
-        break;
-    case COMMAND_OUTPUT_MAIN:
-        main_menu (tree);
-        break;
-    default:
-        printf("Неверный режим %c, попробуй еще раз\n", mode);
-        processing_selected_mode_after_game (tree);
-        break;
+        case COMMAND_1:
+            guessing_menu (tree);          
+            break;
+        case COMMAND_2:
+            update_base (tree);
+            menu_after_game (tree);
+            break;
+        case COMMAND_3:
+            main_menu (tree);
+            break;
+        default:
+            printf("Неверный режим %c, попробуй еще раз\n", mode);
+            processing_selected_mode_after_game (tree);
+            break;
     }
 }
 
-int get_command()
+void menu_after_definition (struct Tree* tree)
+{
+    system ("sleep 2");
+    screen_clear ();
+
+    printf ("Хотите продолжить?\n"
+            "[" RED_TEXT (1) "]" "Продолжить смотреть опредления\n"
+            "[" RED_TEXT (2) "]" "Выйти в меню\n");
+
+    SPEECH_SYNTHESIZER (work_synthesizer, "Хотите узнавать кто есть кто? Или попробуете что-то другое?", 0);
+
+    processing_selected_mode_after_definition (tree);
+}
+
+void processing_selected_mode_after_definition (struct Tree* tree)
+{
+    int mode = get_command ();
+
+    switch (mode)
+    {
+        case COMMAND_1:
+            definition_menu (tree);          
+            break;
+        case COMMAND_2:
+            main_menu (tree);
+            break;
+        default:
+            printf("Неверный режим %c, попробуй еще раз\n", mode);
+            processing_selected_mode_after_game (tree);
+            break;
+    }
+}
+
+int get_command ()
 {
     struct termios oldt = {};
     struct termios newt = {};
@@ -230,6 +297,15 @@ int get_word (char* word)
     }
 
     return ERROR_GETS;
+}
+
+void input_word (char* word)
+{
+    while (get_word (word) != GOOD_WORKING)
+    {
+        printf ("Ввод был не корректен, попробуйте еще раз. Отличительный признак: ");
+    }
+    printf ("Ввод был завершен.\n");
 }
 
 //---------------------------------------------------------------------------------
@@ -298,7 +374,45 @@ void update_base (struct Tree* tree)
 
 //---------------------------------------------------------------------------------
 
-void tree_search (struct Tree* tree, const char* object)
+struct Stack* tree_search (struct Tree* tree, const char* object)
 {
+    struct Stack* path_element = (struct Stack*) calloc (1, sizeof(struct Stack));
+
+    StackCtor (path_element, 10);
+
+    node_search(object, tree->root, path_element);
     
+    return path_element;
+}
+
+int node_search(const char* object, struct Knot* current_knot, struct Stack* path_element)
+{
+    StackPush(path_element, current_knot);
+
+    if (strcmp(object, current_knot->string) == 0) 
+    {
+        return 1;
+    }
+    else
+    {
+        if (current_knot->left != nullptr && current_knot->right != nullptr)
+        {
+            if (node_search (object, current_knot->left, path_element) || node_search (object, current_knot->right, path_element))
+            {
+                return 1;
+            }
+            else
+            {
+                StackPop(path_element);
+                return 0;
+            }
+        }
+        else if (current_knot->left == nullptr && current_knot->right == nullptr)
+        {
+            StackPop(path_element);
+            return 0;
+        }
+
+        return 0;
+    }
 }

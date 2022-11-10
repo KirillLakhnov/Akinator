@@ -65,6 +65,8 @@ struct Knot* knot_creater (struct Tree* tree, struct Knot* prev)
 
     tree->size++;
     current_knot->prev = prev;
+    current_knot->left = nullptr;
+    current_knot->right = nullptr;
 
     tree->current_position_buffer = strchr (tree->current_position_buffer, '{');
     if (tree->current_position_buffer == nullptr)
@@ -187,7 +189,7 @@ int tree_graph_dump (struct Tree* tree)
 {
     static int number_of_function_launches = 0;
 
-    FILE* tree_log_graph = fopen ("graph_log_tree.dot", "w");
+    FILE* tree_log_graph = fopen ("graph/graph_log_tree.dot", "w");
     if (tree_log_graph == nullptr)
     {
         printf ("ERROR FOPEN on line %d in list.cpp", __LINE__);
@@ -206,11 +208,11 @@ int tree_graph_dump (struct Tree* tree)
     fclose (tree_log_graph);
 
     char command[100] = "";
-    sprintf (command, "dot -Tpng -ograph_log_tree_%d.png graph_log_tree.dot", number_of_function_launches);
+    sprintf (command, "dot -Tpng -ograph/graph_log_tree_%d.png graph/graph_log_tree.dot", number_of_function_launches);
 
     system(command);
 
-    FILE* htm_log_file = fopen ("htm_log_file.htm", "a");
+    FILE* htm_log_file = fopen ("graph/htm_log_file.htm", "a");
 
     fprintf (htm_log_file, "<pre>\n");
     fprintf (htm_log_file, "<img src = \"graph_log_tree_%d.png\">", number_of_function_launches);

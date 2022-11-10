@@ -9,6 +9,7 @@
 #include <locale.h>
 
 #include "libraries/FileProcessing.h"
+#include "libraries/stack.h"
 
 const size_t NAME_MAX_LEN = 100;
 const size_t DTOR_SIZE_T = 0xBABADEDA;

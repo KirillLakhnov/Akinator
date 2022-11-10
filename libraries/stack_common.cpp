@@ -5,48 +5,6 @@
 
 int StackDump (struct Stack* stack)
 {
-    stack->func_info.log_file = fopen (stack->func_info.log_file_name, "ab");
-    
-    if (stack->func_info.log_file == nullptr)
-    {
-        return ERROR_FILE_OPEN;
-    }
-
-    fprintf (stack->func_info.log_file, "-----------------------------------------------\n");
-
-#ifndef NDEBUG
-    fprintf (stack->func_info.log_file, "%s () at stack.cpp (%ld):\n"
-                        "Stack[%p] (%s) \"%s\" at main () at main.cpp (%ld)\n", 
-                        stack->func_info.name_function_stack_cpp, stack->func_info.number_line_stack_cpp, stack, (stack->code_of_error > 0) ? "ERROR" : "OK", stack->func_info.name_stack, stack->func_info.number_line_stack_name_main);
-
-    fprintf (stack->func_info.log_file, "{\n\tsize          = %lu\n"
-                                           "\tcapacity      = %lu\n" 
-                                           "\tcode of error = %d\n"
-                                           "\tdata[%p]\n\t{\n", stack->size, stack->capacity, stack->code_of_error, stack->data);
-#else
-    fprintf (stack->func_info.log_file, "%s\" at main () at main.cpp (%ld)\n", 
-                                        stack->func_info.name_stack, stack->func_info.number_line_stack_name_main);
-
-    fprintf (stack->func_info.log_file, "{\n\tsize          = %lu\n"
-                                           "\tcapacity      = %lu\n" 
-                                           "\tdata[%p]\n\t{\n", stack->size, stack->capacity, stack->data);
-#endif
-
-    for (int i = 0; i < stack->capacity; i++)
-    {
-        fprintf (stack->func_info.log_file, "\t\t%c [%d] = " specifier_elem_t "\n", 
-                           (stack->data[i] == NULL_SPECIFIER || stack->data[i] != stack->data[i]) ? ' ' : '*', i, stack->data[i]);
-    }
-    
-    fprintf (stack->func_info.log_file, "\t}\n}\n");
-
-    fprintf (stack->func_info.log_file, "-----------------------------------------------\n");
-
-    if (fclose (stack->func_info.log_file) < 0)
-    {
-        return ERROR_FILE_CLOSE;
-    }
-
     return GOOD_WORKING;
 }
 

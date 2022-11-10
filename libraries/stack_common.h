@@ -3,7 +3,7 @@
 
 //#define NDEBUG
 
-typedef double Elem_t;
+typedef struct Knot* Elem_t;
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,9 +11,9 @@ typedef double Elem_t;
 
 #include "stack_common.h"
 
-#define specifier_elem_t "%f"
+#define specifier_elem_t "%p"
 
-const Elem_t NULL_SPECIFIER = NAN;
+const Elem_t NULL_SPECIFIER = nullptr;
 const size_t HASH_START = 0xBEEF; 
 
 enum STACK_ERROR {
