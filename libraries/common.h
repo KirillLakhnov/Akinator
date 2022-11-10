@@ -8,10 +8,21 @@
 #include <ctype.h>
 #include <locale.h>
 
-#define SPEECH_SYNTHESIZER(work_synthesizer, text)  if (work_synthesizer)       \
-                                                    {                           \
-                                                        system ("say " #text);  \
-                                                    }                           
+const size_t MAX_LEN_CMD = 100;
+
+#define SPEECH_SYNTHESIZER(work_synthesizer, text, there_is_variable)   if (work_synthesizer)                                           \
+                                                                        {                                                               \
+                                                                            if (there_is_variable == 0)                                 \
+                                                                            {                                                           \
+                                                                                system ("say " #text);                                  \
+                                                                            }                                                           \
+                                                                            else                                                        \
+                                                                            {                                                           \
+                                                                                char command[MAX_LEN_CMD] = "";                         \
+                                                                                snprintf (command, MAX_LEN_CMD, "say %s", text);        \
+                                                                                system (command);                                       \
+                                                                            }                                                           \
+                                                                        }                           
 
 void screen_clear ();
 

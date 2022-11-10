@@ -11,7 +11,7 @@ int main ()
 
     tree_ctor (&tree_akinator);
     tree_creater (&tree_akinator);
-
+    
     tree_graph_dump (&tree_akinator);
 
     main_menu (&tree_akinator);

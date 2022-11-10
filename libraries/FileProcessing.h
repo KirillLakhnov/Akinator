@@ -7,21 +7,7 @@
 #include <assert.h>
 #include <math.h>
 
-/**
- * @brief ERROR_FILE_PROCESSING - the result of some functions that is issued in case of an error or successful execution.
- */
-enum ERROR_FILE_PROCESSING {
-    GOOD_WORKING         = 0,
-    ERROR_MEMMORY        = 1,
-    ERROR_READING_FILE   = 2,
-    ERROR_FILE_OPEN      = 3,
-    ERROR_FILE_CLOSE     = 4,
-    ERROR_FSEEK          = 5,
-    ERROR_FTELL          = 6,
-    ERROR_FPRINTF        = 7,
-    ERROR_FPUTS          = 8,
-    ERROR_BUFFER_CREATER = 9,
-};
+#include "../enum.h"
 
 /**
  * @brief Text - the structure contains variables related to the original text file and buffer.

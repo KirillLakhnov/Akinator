@@ -4,14 +4,6 @@ void tree_ctor (struct Tree* tree)
 {
     BufferCreater (tree->file_database, tree->buffer_database);
 
-    for (int i = 0; i < tree->buffer_database->size_buffer; i++)
-    {
-        if (tree->buffer_database->file_buffer[i] == '\n')
-        {
-            tree->buffer_database->file_buffer[i] = ' ';
-        }
-    }
-
     tree->size = 0;
     tree->code_error = 0;
 
@@ -106,6 +98,12 @@ struct Knot* knot_creater (struct Tree* tree, struct Knot* prev)
     return current_knot;
 }
 
+void tree_search ()
+{
+
+}
+
+//-----------------------------------------------------------------------------------
 void tree_print (struct Knot* knot)
 {
     printf ("{");

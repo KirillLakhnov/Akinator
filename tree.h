@@ -39,7 +39,6 @@ struct Tree
     size_t size;
     size_t code_error;
 
-
     char* current_position_buffer;
 };
 
@@ -50,6 +49,8 @@ void tree_dtor (struct Tree* tree);
 void tree_creater (struct Tree* tree);
 
 struct Knot* knot_creater (struct Tree* tree, struct Knot* prev);
+
+//-----------------------------------------------------------------------------------
 
 void tree_print (struct Knot* knot);
 
