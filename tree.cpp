@@ -15,10 +15,14 @@ void tree_ctor (struct Tree* tree)
     tree->current_position_buffer = tree->buffer_database->file_buffer;
 
     tree->root = knot_creater (tree, nullptr);
+
+    ASSERT_OK(tree);
 }
 
 void tree_dtor (struct Tree* tree)
 {
+    ASSERT_OK (tree);
+
     TextDtor (tree->buffer_database);
 
     tree->file_database->file_name = nullptr;
@@ -58,6 +62,8 @@ void knot_dtor (struct Knot* current_knot)
 
 void tree_creater (struct Tree* tree)
 {
+    ASSERT_OK(tree);
+
     FILE* base = fopen (tree->file_database->file_name, "rb");
     if (base == nullptr)
     {
@@ -115,10 +121,14 @@ void tree_creater (struct Tree* tree)
 
     free (bracket);
     fclose (base);
+
+    ASSERT_OK(tree);
 }
 
 struct Knot* knot_creater (struct Tree* tree, struct Knot* prev)
 {
+    ASSERT_OK(tree);
+
     struct Knot* current_knot = (Knot*) calloc (1, sizeof (Knot));
     if (current_knot == nullptr)
     {
@@ -173,7 +183,21 @@ struct Knot* knot_creater (struct Tree* tree, struct Knot* prev)
 
     tree->current_position_buffer = pointer_end + 1;
 
+    ASSERT_OK(tree);
+    
     return current_knot;
+}
+
+//-----------------------------------------------------------------------------------
+
+int tree_error (struct Tree* tree)
+{
+
+}
+
+int decoder_list_error (struct Tree* tree)
+{
+    
 }
 
 //-----------------------------------------------------------------------------------

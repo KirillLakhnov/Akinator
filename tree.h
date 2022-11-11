@@ -11,6 +11,23 @@
 #include "libraries/FileProcessing.h"
 #include "libraries/stack.h"
 
+#ifndef NDEBUG
+#define ASSERT_OK(tree) do                                      \
+                        {                                       \
+                            if (tree_error (tree) != 0)         \
+                            {                                   \
+                                tree_graph_dump (tree);         \
+                                abort ();                       \
+                            }                                   \
+                        } while (0)
+
+#define CHECK_ERROR(condition, error) (condition) ? error : 0
+
+#else
+#define ASSERT_OK(tree)
+#define CHECK_ERROR(condition, error)
+#endif
+
 const size_t NAME_MAX_LEN = 100;
 const size_t DTOR_SIZE_T = 0xBABADEDA;
 const int DTOR_INT = 0xBABADEAD;
@@ -58,6 +75,18 @@ void knot_dtor (struct Knot* current_knot);
 void tree_creater (struct Tree* tree);
 
 struct Knot* knot_creater (struct Tree* tree, struct Knot* prev);
+
+//-----------------------------------------------------------------------------------
+
+int tree_error (struct Tree* tree)
+{
+
+}
+
+int decoder_list_error (struct Tree* tree)
+{
+
+}
 
 //-----------------------------------------------------------------------------------
 

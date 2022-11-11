@@ -309,11 +309,13 @@ void object_comparison_mode (struct Tree* tree)
         if (((path_element_1->data)[1] == (path_element_2->data)[1]) && 
             (0 < path_element_1->size - 1) && (0 < path_element_2->size - 1))
         {
-            printf("%s и %s схожи тем, что", object_1, object_2);
+            printf ("%s и %s схожи тем, что.", object_1, object_2);
+            SPEECH_SYNTHESIZER (work_synthesizer, "%s и %s схожи тем, что", object_1, object_2);
         }
         else
         {
-            
+            printf ("%s и %s ничем не схожи", object_1, object_2);
+            SPEECH_SYNTHESIZER (work_synthesizer, "%s и %s ничем не схожи", object_1, object_2);
         }
 
         int index_1 = 0;
@@ -326,10 +328,12 @@ void object_comparison_mode (struct Tree* tree)
             if ((path_element_1->data)[index_1]->left  == (path_element_1->data)[index_1 + 1])
             {
                 printf(" %s,", (path_element_1->data)[index_1]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, " %s,", (path_element_1->data)[index_1]->string);
             }
             if ((path_element_1->data)[index_1]->right == (path_element_1->data)[index_1 + 1])
             {
                 printf(" не %s,", (path_element_1->data)[index_1]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, " не %s,", (path_element_1->data)[index_1]->string);
             }
 
             index_1++;
@@ -337,35 +341,41 @@ void object_comparison_mode (struct Tree* tree)
         }
 //--------------------------------------------------------------------------------------------------
 
-        printf("\nно %s отличается тем, что", object_1);
+        printf("\n%s отличается тем, что", object_1);
+        SPEECH_SYNTHESIZER (work_synthesizer, "\n%s отличается тем, что", object_1);
         
         while (index_1 < path_element_1->size - 1)
         {   
             if ((path_element_1->data)[index_1]->left == (path_element_1->data)[index_1 + 1])
             {
                 printf(" %s,", (path_element_1->data)[index_1]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, " %s,", (path_element_1->data)[index_1]->string);
             }
 
             if ((path_element_1->data)[index_1]->right == (path_element_1->data)[index_1 + 1])
             {
                 printf(" не %s,", (path_element_1->data)[index_1]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, " не %s,", (path_element_1->data)[index_1]->string);
             }
 
             index_1++;
         }
 
-        printf("\nа %s отличается тем, что", object_2);
+        printf("\n%s отличается тем, что", object_2);
+        SPEECH_SYNTHESIZER (work_synthesizer, "\n%s отличается тем, что", object_2);
 
         while (index_2 < path_element_2->size - 2)
         {
             if ((path_element_2->data)[index_2]->left  == (path_element_2->data)[index_2 + 1])
             {
                 printf(" %s,", (path_element_2->data)[index_2]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, " %s,", (path_element_2->data)[index_2]->string);
             }
 
             if ((path_element_2->data)[index_2]->right == (path_element_2->data)[index_2 + 1])
             {
                 printf(" не %s,", (path_element_2->data)[index_2]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, " не %s,", (path_element_2->data)[index_2]->string);
             }
 
              index_2++;
@@ -374,11 +384,13 @@ void object_comparison_mode (struct Tree* tree)
         if ((path_element_2->data)[index_2]->left  == (path_element_2->data)[index_2 + 1])
         {
             printf(" %s.\n", (path_element_2->data)[index_2]->string);
+            SPEECH_SYNTHESIZER (work_synthesizer, " %s.\n", (path_element_2->data)[index_2]->string);
         }
 
         if ((path_element_2->data)[index_2]->right == (path_element_2->data)[index_2 + 1])
         {
             printf(" не %s.\n", (path_element_2->data)[index_2]->string);
+            SPEECH_SYNTHESIZER (work_synthesizer, " не %s.\n", (path_element_2->data)[index_2]->string);
         }
     }
 
