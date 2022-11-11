@@ -13,7 +13,7 @@ void main_menu (struct Tree* tree)
             "[" RED_TEXT(4) "] Просмотреть базу данных\n"
             "[" RED_TEXT(5) "] Выход из программы\n");
 
-    SPEECH_SYNTHESIZER (work_synthesizer_main, "А саламаалейкум брад. Это Акинатор! Выбери соответствующий режим игры!", 0);
+    SPEECH_SYNTHESIZER (work_synthesizer_main, "А саламаалейкум брад. Это Акинатор! Выбери соответствующий режим игры!");
 
     work_synthesizer_main = 0;
     tree_ctor (tree);
@@ -42,7 +42,7 @@ void processing_selected_mode (struct Tree* tree)
         case COMMAND_5:
             screen_clear ();
             tree_dtor (tree);
-            SPEECH_SYNTHESIZER (work_synthesizer, "Прощай, плак плак", 0);
+            SPEECH_SYNTHESIZER (work_synthesizer, "Прощай, плак плак");
             return;
         default: 
             printf("Неверный режим %c, попробуй еще раз\n", mode);
@@ -58,7 +58,7 @@ void guessing_menu (struct Tree* tree)
     screen_clear ();
 
     printf ("Ну что ж, давай я попробую отгадать твоё слово.\n");
-    SPEECH_SYNTHESIZER (work_synthesizer, "Ну что ж, давай я попробую отгадать твоё слово.", 0);
+    SPEECH_SYNTHESIZER (work_synthesizer, "Ну что ж, давай я попробую отгадать твоё слово.");
 
     struct Knot* current_knot = tree->root;
 
@@ -71,8 +71,7 @@ void guessing_mode (struct Tree* tree, struct Knot* current_knot)
 
     printf ("Это %s? ["  RED_TEXT(Y)"/" RED_TEXT(N) "]\n", current_knot->string);
 
-    SPEECH_SYNTHESIZER (work_synthesizer, "Это", 0);
-    SPEECH_SYNTHESIZER (work_synthesizer, current_knot->string, 1);
+    SPEECH_SYNTHESIZER (work_synthesizer, "Это %s", current_knot->string);
     
     processing_selected_response (tree, current_knot);
 }
@@ -89,7 +88,7 @@ void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
                 screen_clear ();
 
                 printf ("Юхху! Я победил! Вы не смогли меня обыграть!\n");
-                SPEECH_SYNTHESIZER (work_synthesizer, "Юхху! Я победил! Вы не смогли меня обыграть!", 0);
+                SPEECH_SYNTHESIZER (work_synthesizer, "Юхху! Я победил! Вы не смогли меня обыграть!");
 
                 menu_after_game (tree);
             }
@@ -104,7 +103,7 @@ void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
                 screen_clear ();
 
                 printf ("Эх, в этот раз не вышло. Кто же это был? Ваше слово: ");
-                SPEECH_SYNTHESIZER (work_synthesizer, "Эх, в этот раз не вышло. Кто же это был?", 0);
+                SPEECH_SYNTHESIZER (work_synthesizer, "Эх, в этот раз не вышло. Кто же это был?");
 
                 char new_object[MAX_STR_SIZE] = "";
                 input_word (new_object);
@@ -112,7 +111,7 @@ void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
                 if (tree_search (tree, new_object) != 0)
                 {
                     printf ("Введите отличительный признак вашего слова от \"%s\": ", current_knot->string);
-                    SPEECH_SYNTHESIZER (work_synthesizer, "Введите отличительный признак вашего слова", 0);
+                    SPEECH_SYNTHESIZER (work_synthesizer, "Введите отличительный признак вашего слова");
 
                     char distinctive_property[MAX_STR_SIZE] = "";
                     input_word (distinctive_property);
@@ -168,7 +167,7 @@ void menu_after_game (struct Tree* tree)
             "[" RED_TEXT (2) "]" "Сохранить изменения базы данных?\n"
             "[" RED_TEXT (3) "]" "Выйти в меню\n");
 
-    SPEECH_SYNTHESIZER (work_synthesizer, "Хотите играть в угадайку дальше? Или попробовать что-то другое?", 0);
+    SPEECH_SYNTHESIZER (work_synthesizer, " Хотите играть в угадайку дальше? Или попробовать что-то другое?");
 
     processing_selected_mode_after_game (tree);
 }
@@ -180,7 +179,7 @@ void definition_menu (struct Tree* tree)
     screen_clear ();
 
     printf ("Введите слово, определение которого хотите посмотреть: ");
-    SPEECH_SYNTHESIZER (work_synthesizer, "Введите слово, определение которого хотите посмотреть.", 0);
+    SPEECH_SYNTHESIZER (work_synthesizer, "Введите слово, определение которого хотите посмотреть.");
 
     definition_mode (tree);
 }
@@ -200,9 +199,7 @@ void definition_mode (struct Tree* tree)
         screen_clear ();
         printf ("Объект \"%s\" не найден в базе данных \"%s\"\n", object, tree->file_database->file_name);
 
-        SPEECH_SYNTHESIZER (work_synthesizer, "объект", 0);
-        SPEECH_SYNTHESIZER (work_synthesizer, object, 1);
-        SPEECH_SYNTHESIZER (work_synthesizer, "не найден в базе данных", 0);
+        SPEECH_SYNTHESIZER (work_synthesizer, "объек %s не найден в базе данных", object);
     }
     else
     {
@@ -210,8 +207,7 @@ void definition_mode (struct Tree* tree)
 
         printf ("%s - это", object);
 
-        SPEECH_SYNTHESIZER (work_synthesizer, object, 1);
-        SPEECH_SYNTHESIZER (work_synthesizer, "это", 0);
+        SPEECH_SYNTHESIZER (work_synthesizer, "%s - это", object);
 
         for (int i = 0; i < path_element->size - 2; i++)
         {   
@@ -219,15 +215,14 @@ void definition_mode (struct Tree* tree)
             {
                 printf(" %s,", (path_element->data)[i]->string);
 
-                SPEECH_SYNTHESIZER (work_synthesizer, (path_element->data)[i]->string, 1);
+                SPEECH_SYNTHESIZER (work_synthesizer, "%s", (path_element->data)[i]->string);
             }
 
             if ((path_element->data)[i]->right == (path_element->data)[i + 1])
             {
                 printf(" не %s,", (path_element->data)[i]->string);
 
-                SPEECH_SYNTHESIZER (work_synthesizer, "не", 1);
-                SPEECH_SYNTHESIZER (work_synthesizer, (path_element->data)[i]->string, 1);
+                SPEECH_SYNTHESIZER (work_synthesizer, "не %s", (path_element->data)[i]->string);
             }
         }
 
@@ -235,15 +230,14 @@ void definition_mode (struct Tree* tree)
             {
                 printf(" %s.\n", (path_element->data)[path_element->size - 2]->string);
 
-                SPEECH_SYNTHESIZER (work_synthesizer, (path_element->data)[path_element->size - 2]->string, 1);
+                SPEECH_SYNTHESIZER (work_synthesizer, "%s", (path_element->data)[path_element->size - 2]->string);
             }
 
         if ((path_element->data)[path_element->size - 2]->right == (path_element->data)[path_element->size - 1])
         {
             printf(" не %s.\n", (path_element->data)[path_element->size - 2]->string);
 
-            SPEECH_SYNTHESIZER (work_synthesizer, "не", 1);
-            SPEECH_SYNTHESIZER (work_synthesizer, (path_element->data)[path_element->size - 2]->string, 1);
+            SPEECH_SYNTHESIZER (work_synthesizer, "не %s", (path_element->data)[path_element->size - 2]->string);
         }
     }
 
@@ -263,7 +257,7 @@ void menu_after_definition (struct Tree* tree)
             "[" RED_TEXT (1) "]" "Продолжить смотреть опредления\n"
             "[" RED_TEXT (2) "]" "Выйти в меню\n");
 
-    SPEECH_SYNTHESIZER (work_synthesizer, "Хотите узнавать кто есть кто? Или попробуете что-то другое?", 0);
+    SPEECH_SYNTHESIZER (work_synthesizer, "Хотите узнавать кто есть кто? Или попробуете что-то другое?");
 
     processing_selected_mode_after_def_cmp (tree);
 }
@@ -275,7 +269,7 @@ void object_comparison_menu (struct Tree* tree)
     screen_clear ();
 
     printf ("Введите 2 слова, которые хотите сравнить:\n");
-    SPEECH_SYNTHESIZER (work_synthesizer, "Введите 2 слова, которые хотите сравнить", 0);
+    SPEECH_SYNTHESIZER (work_synthesizer, "Введите 2 слова, которые хотите сравнить");
 
     object_comparison_mode (tree);
 }
@@ -299,27 +293,33 @@ void object_comparison_mode (struct Tree* tree)
         screen_clear ();
         printf ("Объект \"%s\" не найден в базе данных \"%s\"\n", object_1, tree->file_database->file_name);
 
-        SPEECH_SYNTHESIZER (work_synthesizer, "объект", 0);
-        SPEECH_SYNTHESIZER (work_synthesizer, object_1, 1);
-        SPEECH_SYNTHESIZER (work_synthesizer, "не найден в базе данных", 0);
+        SPEECH_SYNTHESIZER (work_synthesizer, "объект %s не найден в базе данных", object_1);
     }
     else if (path_element_1->size == 0)
     {
         screen_clear ();
         printf ("Объект \"%s\" не найден в базе данных \"%s\"\n", object_2, tree->file_database->file_name);
 
-        SPEECH_SYNTHESIZER (work_synthesizer, "объект", 0);
-        SPEECH_SYNTHESIZER (work_synthesizer, object_2, 1);
-        SPEECH_SYNTHESIZER (work_synthesizer, "не найден в базе данных", 0);
+        SPEECH_SYNTHESIZER (work_synthesizer, "объект %s не найден в базе данных", object_2);
     }
     else
     {
         screen_clear();
-        printf("%s и %s схожи тем, что", object_1, object_2);
+
+        if (((path_element_1->data)[1] == (path_element_2->data)[1]) && 
+            (0 < path_element_1->size - 1) && (0 < path_element_2->size - 1))
+        {
+            printf("%s и %s схожи тем, что", object_1, object_2);
+        }
+        else
+        {
+            
+        }
 
         int index_1 = 0;
         int index_2 = 0;
 
+//--------------------------------------------------------------------------------------------------
         while (((path_element_1->data)[index_1 + 1] == (path_element_2->data)[index_1 + 1]) && 
                (index_1 < path_element_1->size - 1) && (index_2 < path_element_2->size - 1))
         {   
@@ -335,12 +335,13 @@ void object_comparison_mode (struct Tree* tree)
             index_1++;
             index_2++;
         }
+//--------------------------------------------------------------------------------------------------
 
         printf("\nно %s отличается тем, что", object_1);
         
         while (index_1 < path_element_1->size - 1)
         {   
-            if ((path_element_1->data)[index_1]->left  == (path_element_1->data)[index_1 + 1])
+            if ((path_element_1->data)[index_1]->left == (path_element_1->data)[index_1 + 1])
             {
                 printf(" %s,", (path_element_1->data)[index_1]->string);
             }
@@ -404,7 +405,7 @@ void menu_after_comparison (struct Tree* tree)
             "[" RED_TEXT (1) "]" "Продолжить сравнивать объекты\n"
             "[" RED_TEXT (2) "]" "Выйти в меню\n");
 
-    SPEECH_SYNTHESIZER (work_synthesizer, "Хотите узнавать кто есть кто? Или попробуете что-то другое?", 0);
+    SPEECH_SYNTHESIZER (work_synthesizer, "Хотите узнавать кто есть кто? Или попробуете что-то другое?");
 
     processing_selected_mode_after_def_cmp (tree);
 }
