@@ -149,8 +149,6 @@ int StackRealloc (struct Stack* stack, size_t new_capacity)
     }
     else
     {
-        *((size_t*)(stack->data + stack->capacity)) = 0;
-
         stack->data = help_variable;
 
         *((size_t*)(stack->data)) = LEFT_CANARY;

@@ -10,6 +10,7 @@ typedef struct Knot* Elem_t;
 #include <math.h>
 
 #include "stack_common.h"
+#include "common.h"
 
 #define specifier_elem_t "%p"
 
@@ -47,8 +48,6 @@ enum STACK_ERROR {
                                     stack->func_info.number_line_stack_cpp = __LINE__ - 2;      \
                                     stack->func_info.name_function_stack_cpp = __FUNCTION__;    \
                                 } while (0)                                                     
-
-#define CHECK_ERROR(condition, error) (condition) ? error : 0
 
 #define PRINT_ERROR(code_of_error_programm, error)  if (code_of_error_programm & error)                        \
                                                     {                                                          \

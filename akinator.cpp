@@ -16,14 +16,19 @@ void main_menu (struct Tree* tree)
     SPEECH_SYNTHESIZER (work_synthesizer_main, "А саламаалейкум брад. Это Акинатор! Выбери соответствующий режим игры!");
 
     work_synthesizer_main = 0;
+
     tree_ctor (tree);
     tree_creater (tree);
 
     processing_selected_mode (tree);
+
+    ASSERT_OK_TREE (tree);
 }
 
 void processing_selected_mode (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     int mode = get_command();
 
     switch (mode)
@@ -38,6 +43,8 @@ void processing_selected_mode (struct Tree* tree)
             object_comparison_menu (tree); 
             break;
         case COMMAND_4:
+            graph_open (tree);
+            screen_clear ();
             break;
         case COMMAND_5:
             screen_clear ();
@@ -49,12 +56,16 @@ void processing_selected_mode (struct Tree* tree)
             processing_selected_mode (tree); 
             break;
     }
+
+    ASSERT_OK_TREE (tree);
 }
 
 //---------------------------------------------------------------------------------
 
 void guessing_menu (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     screen_clear ();
 
     printf ("Ну что ж, давай я попробую отгадать твоё слово.\n");
@@ -63,10 +74,14 @@ void guessing_menu (struct Tree* tree)
     struct Knot* current_knot = tree->root;
 
     guessing_mode (tree, current_knot);
+
+    ASSERT_OK_TREE (tree);
 }
 
 void guessing_mode (struct Tree* tree, struct Knot* current_knot)
 {
+    ASSERT_OK_TREE (tree);
+
     screen_clear ();
 
     printf ("Это %s? ["  RED_TEXT(Y)"/" RED_TEXT(N) "]\n", current_knot->string);
@@ -74,10 +89,15 @@ void guessing_mode (struct Tree* tree, struct Knot* current_knot)
     SPEECH_SYNTHESIZER (work_synthesizer, "Это %s", current_knot->string);
     
     processing_selected_response (tree, current_knot);
+
+    ASSERT_OK_TREE (tree);
 }
 
 void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
 {
+    assert (current_knot);
+    ASSERT_OK_TREE (tree);
+
     int answer = get_command();
 
     switch (answer)
@@ -135,10 +155,14 @@ void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
             processing_selected_response (tree, current_knot);
             break;
     }
+
+    ASSERT_OK_TREE (tree);
 }
 
 void processing_selected_mode_after_game (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     int mode = get_command ();
 
     switch (mode)
@@ -158,10 +182,14 @@ void processing_selected_mode_after_game (struct Tree* tree)
             processing_selected_mode_after_game (tree);
             break;
     }
+
+    ASSERT_OK_TREE (tree);
 }
 
 void menu_after_game (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     printf ("\nХотите продолжить?\n"
             "[" RED_TEXT (1) "]" "Начать заново\n"
             "[" RED_TEXT (2) "]" "Сохранить изменения базы данных?\n"
@@ -170,29 +198,41 @@ void menu_after_game (struct Tree* tree)
     SPEECH_SYNTHESIZER (work_synthesizer, " Хотите играть в угадайку дальше? Или попробовать что-то другое?");
 
     processing_selected_mode_after_game (tree);
+
+    ASSERT_OK_TREE (tree);
 }
 
 //---------------------------------------------------------------------------------
 
 void definition_menu (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     screen_clear ();
 
     printf ("Введите слово, определение которого хотите посмотреть: ");
     SPEECH_SYNTHESIZER (work_synthesizer, "Введите слово, определение которого хотите посмотреть.");
 
     definition_mode (tree);
+
+    ASSERT_OK_TREE (tree);
 }
 
 void definition_mode (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     screen_clear ();
 
     char object[MAX_STR_SIZE] = "";
     input_word (object);
 
     struct Stack* path_element = tree_search(tree, object);
-
+    if (path_element == nullptr)
+    {
+        printf ("ERROR");
+    }
+        
     printf ("\n%lu\n",path_element->size);
     if (path_element->size == 0)
     {
@@ -249,33 +289,68 @@ void definition_mode (struct Tree* tree)
     }
 
     menu_after_definition (tree);
+
+    ASSERT_OK_TREE (tree);
 }
 
 void menu_after_definition (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     printf ("\nХотите продолжить?\n"
             "[" RED_TEXT (1) "]" "Продолжить смотреть опредления\n"
             "[" RED_TEXT (2) "]" "Выйти в меню\n");
 
     SPEECH_SYNTHESIZER (work_synthesizer, "Хотите узнавать кто есть кто? Или попробуете что-то другое?");
 
-    processing_selected_mode_after_def_cmp (tree);
+    processing_selected_mode_after_definition (tree);
+
+    ASSERT_OK_TREE (tree);
+}
+
+void processing_selected_mode_after_definition (struct Tree* tree)
+{
+    ASSERT_OK_TREE (tree);
+
+    int mode = get_command ();
+
+    switch (mode)
+    {
+        case COMMAND_1:
+            definition_menu (tree);          
+            break;
+        case COMMAND_2:
+            main_menu (tree);
+            break;
+        default:
+            printf("Неверный режим %c, попробуй еще раз\n", mode);
+            processing_selected_mode_after_game (tree);
+            break;
+    }
+
+    ASSERT_OK_TREE (tree);
 }
 
 //---------------------------------------------------------------------------------
 
 void object_comparison_menu (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     screen_clear ();
 
     printf ("Введите 2 слова, которые хотите сравнить:\n");
     SPEECH_SYNTHESIZER (work_synthesizer, "Введите 2 слова, которые хотите сравнить");
 
     object_comparison_mode (tree);
+
+    ASSERT_OK_TREE (tree);
 }
 
 void object_comparison_mode (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     char object_1[MAX_STR_SIZE] = "";
     char object_2[MAX_STR_SIZE] = "";
 
@@ -295,7 +370,7 @@ void object_comparison_mode (struct Tree* tree)
 
         SPEECH_SYNTHESIZER (work_synthesizer, "объект %s не найден в базе данных", object_1);
     }
-    else if (path_element_1->size == 0)
+    else if (path_element_2->size == 0)
     {
         screen_clear ();
         printf ("Объект \"%s\" не найден в базе данных \"%s\"\n", object_2, tree->file_database->file_name);
@@ -309,7 +384,7 @@ void object_comparison_mode (struct Tree* tree)
         if (((path_element_1->data)[1] == (path_element_2->data)[1]) && 
             (0 < path_element_1->size - 1) && (0 < path_element_2->size - 1))
         {
-            printf ("%s и %s схожи тем, что.", object_1, object_2);
+            printf ("%s и %s схожи тем, что", object_1, object_2);
             SPEECH_SYNTHESIZER (work_synthesizer, "%s и %s схожи тем, что", object_1, object_2);
         }
         else
@@ -321,76 +396,73 @@ void object_comparison_mode (struct Tree* tree)
         int index_1 = 0;
         int index_2 = 0;
 
-//--------------------------------------------------------------------------------------------------
         while (((path_element_1->data)[index_1 + 1] == (path_element_2->data)[index_1 + 1]) && 
                (index_1 < path_element_1->size - 1) && (index_2 < path_element_2->size - 1))
         {   
             if ((path_element_1->data)[index_1]->left  == (path_element_1->data)[index_1 + 1])
             {
                 printf(" %s,", (path_element_1->data)[index_1]->string);
-                SPEECH_SYNTHESIZER (work_synthesizer, " %s,", (path_element_1->data)[index_1]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, "%s", (path_element_1->data)[index_1]->string);
             }
-            if ((path_element_1->data)[index_1]->right == (path_element_1->data)[index_1 + 1])
+            else if ((path_element_1->data)[index_1]->right == (path_element_1->data)[index_1 + 1])
             {
                 printf(" не %s,", (path_element_1->data)[index_1]->string);
-                SPEECH_SYNTHESIZER (work_synthesizer, " не %s,", (path_element_1->data)[index_1]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, "не %s", (path_element_1->data)[index_1]->string);
             }
 
             index_1++;
             index_2++;
         }
-//--------------------------------------------------------------------------------------------------
 
         printf("\n%s отличается тем, что", object_1);
-        SPEECH_SYNTHESIZER (work_synthesizer, "\n%s отличается тем, что", object_1);
+        SPEECH_SYNTHESIZER (work_synthesizer, "%s отличается тем, что", object_1);
         
         while (index_1 < path_element_1->size - 1)
         {   
             if ((path_element_1->data)[index_1]->left == (path_element_1->data)[index_1 + 1])
             {
                 printf(" %s,", (path_element_1->data)[index_1]->string);
-                SPEECH_SYNTHESIZER (work_synthesizer, " %s,", (path_element_1->data)[index_1]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, "%s", (path_element_1->data)[index_1]->string);
             }
-
-            if ((path_element_1->data)[index_1]->right == (path_element_1->data)[index_1 + 1])
+            else if ((path_element_1->data)[index_1]->right == (path_element_1->data)[index_1 + 1])
             {
                 printf(" не %s,", (path_element_1->data)[index_1]->string);
-                SPEECH_SYNTHESIZER (work_synthesizer, " не %s,", (path_element_1->data)[index_1]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, "не %s", (path_element_1->data)[index_1]->string);
             }
 
             index_1++;
         }
 
         printf("\n%s отличается тем, что", object_2);
-        SPEECH_SYNTHESIZER (work_synthesizer, "\n%s отличается тем, что", object_2);
+        SPEECH_SYNTHESIZER (work_synthesizer, "%s отличается тем, что", object_2);
 
         while (index_2 < path_element_2->size - 2)
         {
             if ((path_element_2->data)[index_2]->left  == (path_element_2->data)[index_2 + 1])
             {
                 printf(" %s,", (path_element_2->data)[index_2]->string);
-                SPEECH_SYNTHESIZER (work_synthesizer, " %s,", (path_element_2->data)[index_2]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, "%s", (path_element_2->data)[index_2]->string);
             }
 
-            if ((path_element_2->data)[index_2]->right == (path_element_2->data)[index_2 + 1])
+            else if ((path_element_2->data)[index_2]->right == (path_element_2->data)[index_2 + 1])
             {
                 printf(" не %s,", (path_element_2->data)[index_2]->string);
-                SPEECH_SYNTHESIZER (work_synthesizer, " не %s,", (path_element_2->data)[index_2]->string);
+                SPEECH_SYNTHESIZER (work_synthesizer, "не %s", (path_element_2->data)[index_2]->string);
             }
 
-             index_2++;
+            index_2++;
         }
 
         if ((path_element_2->data)[index_2]->left  == (path_element_2->data)[index_2 + 1])
         {
             printf(" %s.\n", (path_element_2->data)[index_2]->string);
-            SPEECH_SYNTHESIZER (work_synthesizer, " %s.\n", (path_element_2->data)[index_2]->string);
+            SPEECH_SYNTHESIZER (work_synthesizer, "%s", (path_element_2->data)[index_2]->string);
         }
 
         if ((path_element_2->data)[index_2]->right == (path_element_2->data)[index_2 + 1])
         {
             printf(" не %s.\n", (path_element_2->data)[index_2]->string);
-            SPEECH_SYNTHESIZER (work_synthesizer, " не %s.\n", (path_element_2->data)[index_2]->string);
+            SPEECH_SYNTHESIZER (work_synthesizer, "не %s", (path_element_2->data)[index_2]->string);
         }
     }
 
@@ -409,29 +481,35 @@ void object_comparison_mode (struct Tree* tree)
     }
 
     menu_after_comparison (tree);
+
+    ASSERT_OK_TREE (tree);
 }
 
 void menu_after_comparison (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     printf ("\nХотите продолжить?\n"
             "[" RED_TEXT (1) "]" "Продолжить сравнивать объекты\n"
             "[" RED_TEXT (2) "]" "Выйти в меню\n");
 
     SPEECH_SYNTHESIZER (work_synthesizer, "Хотите узнавать кто есть кто? Или попробуете что-то другое?");
 
-    processing_selected_mode_after_def_cmp (tree);
+    processing_selected_mode_after_comparison (tree);
+
+    ASSERT_OK_TREE (tree);
 }
 
-//---------------------------------------------------------------------------------
-
-void processing_selected_mode_after_def_cmp (struct Tree* tree)
+void processing_selected_mode_after_comparison (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     int mode = get_command ();
 
     switch (mode)
     {
         case COMMAND_1:
-            definition_menu (tree);          
+            object_comparison_menu (tree);         
             break;
         case COMMAND_2:
             main_menu (tree);
@@ -441,6 +519,8 @@ void processing_selected_mode_after_def_cmp (struct Tree* tree)
             processing_selected_mode_after_game (tree);
             break;
     }
+
+    ASSERT_OK_TREE (tree);
 }
 
 //---------------------------------------------------------------------------------
@@ -468,6 +548,8 @@ int get_command ()
 
 int get_word (char* word)
 {
+    assert (word);
+
     if (fgets (word, MAX_STR_SIZE, stdin) != nullptr)
     {
         char* find_symbol = strchr (word, '\n');
@@ -484,7 +566,9 @@ int get_word (char* word)
 }
 
 void input_word (char* word)
-{
+{   
+    assert (word);
+
     while (get_word (word) != GOOD_WORKING)
     {
         printf ("Ввод был не корректен, попробуйте еще раз: ");
@@ -492,14 +576,44 @@ void input_word (char* word)
     printf ("Ввод был завершен.\n");
 }
 
+void graph_open (struct Tree* tree)
+{
+    ASSERT_OK_TREE (tree);
+
+    int number_graph = tree_graph_dump (tree);
+    char command [MAX_STR_SIZE] = "";
+    snprintf (command, MAX_STR_SIZE, "open graph/graph_log_tree_%d.png", number_graph);
+    system (command);
+
+    ASSERT_OK_TREE (tree);
+}
+
 //---------------------------------------------------------------------------------
 
 void update_tree (struct Tree* tree, struct Knot* current_knot, char* new_object, char* distinctive_property)
 {
+    ASSERT_OK_TREE (tree);
+    assert (current_knot);
+    assert (new_object);
+    assert (distinctive_property);
+
     struct Knot* new_knot = (Knot*) calloc (1, sizeof (Knot));
+    if (new_knot == nullptr)
+    {
+        printf ("Error calloc in tree.cpp on line = %d", __LINE__);
+        tree->code_error |= TREE_ERROR_CALLOC;
+        ASSERT_OK_TREE (tree);
+    }
 
     new_knot->length = strlen(distinctive_property) + 1;
     new_knot->string = (char*) calloc (new_knot->length, sizeof(char));
+    if (new_knot->string == nullptr)
+    {
+        printf ("Error calloc in tree.cpp on line = %d", __LINE__);
+        tree->code_error |= TREE_ERROR_CALLOC;
+        ASSERT_OK_TREE (tree);
+    }
+
     strcpy (new_knot->string, distinctive_property);
 
     new_knot->prev = current_knot->prev;
@@ -520,15 +634,27 @@ void update_tree (struct Tree* tree, struct Knot* current_knot, char* new_object
 
     new_knot->left->length = strlen(new_object) + 1;
     new_knot->left->string = (char*) calloc (new_knot->left->length, sizeof(char));
+    if (new_knot->left == nullptr)
+    {
+        printf ("Error calloc in tree.cpp on line = %d", __LINE__);
+        tree->code_error |= TREE_ERROR_CALLOC;
+        ASSERT_OK_TREE (tree);
+    }
+
     strcpy (new_knot->left->string, new_object);
 
     new_knot->left->prev = new_knot;
     new_knot->left->right = nullptr;
     new_knot->left->left = nullptr;
+
+    ASSERT_OK_TREE (tree);
 }
 
 void update_base_print (FILE* base, struct Knot* knot_root)
 {
+    assert (base);
+    assert (knot_root);
+
     fprintf (base, "{\n");
 
     if (!knot_root)
@@ -551,26 +677,45 @@ void update_base_print (FILE* base, struct Knot* knot_root)
 
 void update_base (struct Tree* tree)
 {
+    ASSERT_OK_TREE (tree);
+
     FILE* base = fopen (tree->file_database->file_name, "w");
     update_base_print (base, tree->root);
     fclose (base);
+
+    ASSERT_OK_TREE (tree);
 }
 
 //---------------------------------------------------------------------------------
 
 struct Stack* tree_search (struct Tree* tree, const char* object)
 {
-    struct Stack* path_element = (struct Stack*) calloc (1, sizeof(struct Stack));
+    ASSERT_OK_TREE (tree);
+    assert (object);
 
-    StackCtor (path_element, 5);
+    struct Stack* path_element = (struct Stack*) calloc (1, sizeof(struct Stack));
+    if (path_element == nullptr)
+    {
+        printf ("Error calloc in tree.cpp on line = %d", __LINE__);
+        tree->code_error |= TREE_ERROR_CALLOC;
+        ASSERT_OK_TREE (tree);
+    }
+
+    StackCtor (path_element, 10);
 
     node_search(object, tree->root, path_element);
+
+    ASSERT_OK_TREE (tree);
     
     return path_element;
 }
 
 int node_search(const char* object, struct Knot* current_knot, struct Stack* path_element)
 {
+    assert (object);
+    assert (current_knot);
+    assert (path_element);
+
     StackPush(path_element, current_knot);
 
     if (strcmp(object, current_knot->string) == 0) 

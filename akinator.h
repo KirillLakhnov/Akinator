@@ -15,7 +15,7 @@
 
 #define RED_TEXT(text) "\e[31m" #text "\e[0m"
 
-const int work_synthesizer = 0;
+const int work_synthesizer = 1;
 
 const size_t MAX_STR_SIZE = 250;
 
@@ -54,6 +54,8 @@ void definition_mode (struct Tree* tree);
 
 void menu_after_definition (struct Tree* tree);
 
+void processing_selected_mode_after_definition (struct Tree* tree);
+
 //---------------------------------------------------------------------------------
 
 void object_comparison_menu (struct Tree* tree);
@@ -62,9 +64,7 @@ void object_comparison_mode (struct Tree* tree);
 
 void menu_after_comparison (struct Tree* tree);
 
-//---------------------------------------------------------------------------------
-
-void processing_selected_mode_after_def_cmp (struct Tree* tree);
+void processing_selected_mode_after_comparison (struct Tree* tree);
 
 //---------------------------------------------------------------------------------
 int get_command();
@@ -72,6 +72,8 @@ int get_command();
 int get_word (char* word);
 
 void input_word (char* word);
+
+void graph_open (struct Tree* tree);
 
 //---------------------------------------------------------------------------------
 

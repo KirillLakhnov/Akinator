@@ -13,13 +13,25 @@ const size_t MAX_LEN_CMD = 350;
 #define SPEECH_SYNTHESIZER(work_synthesizer, ...)   if (work_synthesizer)                                           \
                                                     {                                                               \
                                                         char command[MAX_LEN_CMD] = "";                             \
-                                                        snprintf (command, MAX_LEN_CMD, "say " __VA_ARGS__);               \
+                                                        snprintf (command, MAX_LEN_CMD, "say " __VA_ARGS__);        \
                                                         system (command);                                           \
                                                     }                           
+
+#ifndef NDEBUG
+#define CHECK_ERROR(condition, error) (condition) ? error : 0
+#define PRINT_ERROR_GRAPH(file, code_of_error_programm, error)  if (code_of_error_programm & error)                                                     \
+                                                                {                                                                                       \
+                                                                    fprintf (file,  "\"%s\"[shape = \"record\", fontname = \"Helvetica-Bold\","         \
+                                                                                    "fillcolor = \"white\","                                            \
+		                                                                            "\n\t\tlabel = \"%s\"]",                                            \
+                                                                                    #error, #error);                                                    \
+                                                                }    
+#else
+#define CHECK_ERROR(condition, error)
+#endif
 
 void screen_clear ();
 
 int stricmp (const char* str1, const char* str2);
 
-void speech_synthesizer (int work_synthesizer, char* text);
 #endif // COMMON_H

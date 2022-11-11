@@ -2,5 +2,103 @@ digraph G
 {
 	graph [dpi = 300];
 	rankdir = TB;
+	 "животное" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x0 \lcurrent = 0x604000000dd0 | {<left> left = 0x604000000e10| животное | <right> right = 0x604000001290}"]
+	 "животное" -> "черное" [style = "bold", label="Да"]
+	 "животное" -> "ведет матан" [style = "bold", label="Нет"]
+	 "черное" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000000dd0 \lcurrent = 0x604000000e10 | {<left> left = 0x604000000e50| черное | <right> right = 0x6040000010d0}"]
+	 "черное" -> "птица" [style = "bold", label="Да"]
+	 "черное" -> "плохое" [style = "bold", label="Нет"]
+	 "птица" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000000e10 \lcurrent = 0x604000000e50 | {<left> left = 0x604000000e90| птица | <right> right = 0x604000000ed0}"]
+	 "птица" -> "ворона" [style = "bold", label="Да"]
+	 "птица" -> "горилла" [style = "bold", label="Нет"]
+	"ворона" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000000e50 \lcurrent = 0x604000000e90 | {<left> left = 0x0| ворона | <right> right = 0x0}"]
+	 "горилла" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000000e50 \lcurrent = 0x604000000ed0 | {<left> left = 0x604000000f10| горилла | <right> right = 0x604000001090}"]
+	 "горилла" -> "Ясин" [style = "bold", label="Да"]
+	 "горилла" -> "черный котик" [style = "bold", label="Нет"]
+	 "Ясин" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000000ed0 \lcurrent = 0x604000000f10 | {<left> left = 0x604000000f50| Ясин | <right> right = 0x604000001050}"]
+	 "Ясин" -> "первокурсник" [style = "bold", label="Да"]
+	 "Ясин" -> "ты" [style = "bold", label="Нет"]
+	 "первокурсник" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000000f10 \lcurrent = 0x604000000f50 | {<left> left = 0x604000000f90| первокурсник | <right> right = 0x604000001010}"]
+	 "первокурсник" -> "Абу Аси Халедович" [style = "bold", label="Да"]
+	 "первокурсник" -> "Ясинчик - куратор" [style = "bold", label="Нет"]
+	"Абу Аси Халедович" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000000f50 \lcurrent = 0x604000000f90 | {<left> left = 0x0| Абу Аси Халедович | <right> right = 0x0}"]
+	"Ясинчик - куратор" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000000f50 \lcurrent = 0x604000001010 | {<left> left = 0x0| Ясинчик - куратор | <right> right = 0x0}"]
+	"ты" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000000f10 \lcurrent = 0x604000001050 | {<left> left = 0x0| ты | <right> right = 0x0}"]
+	"черный котик" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000000ed0 \lcurrent = 0x604000001090 | {<left> left = 0x0| черный котик | <right> right = 0x0}"]
+	 "плохое" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000000e10 \lcurrent = 0x6040000010d0 | {<left> left = 0x604000001110| плохое | <right> right = 0x6040000011d0}"]
+	 "плохое" -> "быдло" [style = "bold", label="Да"]
+	 "плохое" -> "умеет летать" [style = "bold", label="Нет"]
+	 "быдло" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x6040000010d0 \lcurrent = 0x604000001110 | {<left> left = 0x604000001150| быдло | <right> right = 0x604000001190}"]
+	 "быдло" -> "Макс" [style = "bold", label="Да"]
+	 "быдло" -> "Кондрашов" [style = "bold", label="Нет"]
+	"Макс" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000001110 \lcurrent = 0x604000001150 | {<left> left = 0x0| Макс | <right> right = 0x0}"]
+	"Кондрашов" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000001110 \lcurrent = 0x604000001190 | {<left> left = 0x0| Кондрашов | <right> right = 0x0}"]
+	 "умеет летать" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x6040000010d0 \lcurrent = 0x6040000011d0 | {<left> left = 0x604000001210| умеет летать | <right> right = 0x604000001250}"]
+	 "умеет летать" -> "феникс" [style = "bold", label="Да"]
+	 "умеет летать" -> "Полторашечка" [style = "bold", label="Нет"]
+	"феникс" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x6040000011d0 \lcurrent = 0x604000001210 | {<left> left = 0x0| феникс | <right> right = 0x0}"]
+	"Полторашечка" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x6040000011d0 \lcurrent = 0x604000001250 | {<left> left = 0x0| Полторашечка | <right> right = 0x0}"]
+	 "ведет матан" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000000dd0 \lcurrent = 0x604000001290 | {<left> left = 0x6040000012d0| ведет матан | <right> right = 0x604000001450}"]
+	 "ведет матан" -> "ведет у ФПМИ" [style = "bold", label="Да"]
+	 "ведет матан" -> "женщина" [style = "bold", label="Нет"]
+	 "ведет у ФПМИ" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000001290 \lcurrent = 0x6040000012d0 | {<left> left = 0x604000001310| ведет у ФПМИ | <right> right = 0x604000001350}"]
+	 "ведет у ФПМИ" -> "редкозубов" [style = "bold", label="Да"]
+	 "ведет у ФПМИ" -> "ведет у первого курса РТ" [style = "bold", label="Нет"]
+	"редкозубов" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x6040000012d0 \lcurrent = 0x604000001310 | {<left> left = 0x0| редкозубов | <right> right = 0x0}"]
+	 "ведет у первого курса РТ" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x6040000012d0 \lcurrent = 0x604000001350 | {<left> left = 0x6040000013d0| ведет у первого курса РТ | <right> right = 0x604000001410}"]
+	 "ведет у первого курса РТ" -> "Знамочка" [style = "bold", label="Да"]
+	 "ведет у первого курса РТ" -> "Петрович" [style = "bold", label="Нет"]
+	"Знамочка" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000001350 \lcurrent = 0x6040000013d0 | {<left> left = 0x0| Знамочка | <right> right = 0x0}"]
+	"Петрович" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000001350 \lcurrent = 0x604000001410 | {<left> left = 0x0| Петрович | <right> right = 0x0}"]
+	 "женщина" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000001290 \lcurrent = 0x604000001450 | {<left> left = 0x604000001490| женщина | <right> right = 0x604000001650}"]
+	 "женщина" -> "снимает не детские видеоролики" [style = "bold", label="Да"]
+	 "женщина" -> "дед" [style = "bold", label="Нет"]
+	 "снимает не детские видеоролики" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000001450 \lcurrent = 0x604000001490 | {<left> left = 0x6040000014d0| снимает не детские видеоролики | <right> right = 0x604000001590}"]
+	 "снимает не детские видеоролики" -> "страшные соски" [style = "bold", label="Да"]
+	 "снимает не детские видеоролики" -> "из смешариков" [style = "bold", label="Нет"]
+	 "страшные соски" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000001490 \lcurrent = 0x6040000014d0 | {<left> left = 0x604000001510| страшные соски | <right> right = 0x604000001550}"]
+	 "страшные соски" -> "Eva Elfie" [style = "bold", label="Да"]
+	 "страшные соски" -> "Luxury Girl" [style = "bold", label="Нет"]
+	"Eva Elfie" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x6040000014d0 \lcurrent = 0x604000001510 | {<left> left = 0x0| Eva Elfie | <right> right = 0x0}"]
+	"Luxury Girl" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x6040000014d0 \lcurrent = 0x604000001550 | {<left> left = 0x0| Luxury Girl | <right> right = 0x0}"]
+	 "из смешариков" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#87CEFA",
+		label = "prev = 0x604000001490 \lcurrent = 0x604000001590 | {<left> left = 0x6040000015d0| из смешариков | <right> right = 0x604000001610}"]
+	 "из смешариков" -> "Нюша" [style = "bold", label="Да"]
+	 "из смешариков" -> "Алла Пугачева" [style = "bold", label="Нет"]
+	"Нюша" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000001590 \lcurrent = 0x6040000015d0 | {<left> left = 0x0| Нюша | <right> right = 0x0}"]
+	"Алла Пугачева" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000001590 \lcurrent = 0x604000001610 | {<left> left = 0x0| Алла Пугачева | <right> right = 0x0}"]
+	"дед" [shape = "record", style = "rounded, filled", fontname = "Helvetica-Bold", fillcolor = "#ee9b52",
+		label = "prev = 0x604000001450 \lcurrent = 0x604000001650 | {<left> left = 0x0| дед | <right> right = 0x0}"]
 
 }

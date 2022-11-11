@@ -16,12 +16,12 @@ void tree_ctor (struct Tree* tree)
 
     tree->root = knot_creater (tree, nullptr);
 
-    ASSERT_OK(tree);
+    ASSERT_OK_TREE(tree);
 }
 
 void tree_dtor (struct Tree* tree)
 {
-    ASSERT_OK (tree);
+    ASSERT_OK_TREE(tree);
 
     TextDtor (tree->buffer_database);
 
@@ -62,7 +62,7 @@ void knot_dtor (struct Knot* current_knot)
 
 void tree_creater (struct Tree* tree)
 {
-    ASSERT_OK(tree);
+    ASSERT_OK_TREE(tree);
 
     FILE* base = fopen (tree->file_database->file_name, "rb");
     if (base == nullptr)
@@ -122,19 +122,18 @@ void tree_creater (struct Tree* tree)
     free (bracket);
     fclose (base);
 
-    ASSERT_OK(tree);
+    ASSERT_OK_TREE(tree);
 }
 
 struct Knot* knot_creater (struct Tree* tree, struct Knot* prev)
 {
-    ASSERT_OK(tree);
 
     struct Knot* current_knot = (Knot*) calloc (1, sizeof (Knot));
     if (current_knot == nullptr)
     {
         printf ("Error calloc in tree.cpp on line = %d", __LINE__);
         tree->code_error |= TREE_ERROR_CALLOC;
-        abort ();
+        ASSERT_OK_TREE (tree);
     }
 
     tree->size++;
@@ -146,22 +145,25 @@ struct Knot* knot_creater (struct Tree* tree, struct Knot* prev)
     tree->current_position_buffer = strchr (tree->current_position_buffer, '{');
     if (tree->current_position_buffer == nullptr)
     {
+        printf ("Error syntax in tree.cpp on line = %d", __LINE__);
         tree->code_error |= TREE_ERROR_SYNTAX_IN_BASE;
-        abort ();
+        ASSERT_OK_TREE (tree);
     }
 
     char* pointer_begin = strchr (tree->current_position_buffer, '"');
     if (pointer_begin == nullptr)
     {
+        printf ("Error syntax in tree.cpp on line = %d", __LINE__);
         tree->code_error |= TREE_ERROR_SYNTAX_IN_BASE;
-        abort ();
+        ASSERT_OK_TREE (tree);
     }
 
     char* pointer_end = strchr (pointer_begin + 1, '"');
     if (pointer_end == nullptr)
     {
+        printf ("Error syntax in tree.cpp on line = %d", __LINE__);
         tree->code_error |= TREE_ERROR_SYNTAX_IN_BASE;
-        abort ();
+        ASSERT_OK_TREE (tree);
     }
 
     current_knot->length = pointer_end - pointer_begin;
@@ -170,7 +172,7 @@ struct Knot* knot_creater (struct Tree* tree, struct Knot* prev)
     {
         printf ("Error calloc in tree.cpp on line = %d", __LINE__);
         tree->code_error |= TREE_ERROR_CALLOC;
-        abort ();
+        ASSERT_OK_TREE (tree);
     }
     
     *pointer_end = '\0';
@@ -179,12 +181,11 @@ struct Knot* knot_creater (struct Tree* tree, struct Knot* prev)
     {
         printf ("Error strcpy in tree.cpp on line = %d", __LINE__);
         tree->code_error |= TREE_ERROR_STRCPY;
+        ASSERT_OK_TREE (tree);
     }
 
     tree->current_position_buffer = pointer_end + 1;
 
-    ASSERT_OK(tree);
-    
     return current_knot;
 }
 
@@ -192,12 +193,21 @@ struct Knot* knot_creater (struct Tree* tree, struct Knot* prev)
 
 int tree_error (struct Tree* tree)
 {
+#ifndef NDEBUG
+    int pointer_list_check_null = ((!tree) ? TREE_ERROR_POINTER_STRUCT_NULL : 0);
 
-}
+    if (pointer_list_check_null == 0)
+    {
+        tree->code_error |= CHECK_ERROR (!tree->root,                    TREE_ERROR_POINTER_ROOT_NULL);
+        tree->code_error |= CHECK_ERROR (!tree->buffer_database,         TREE_ERROR_POINTER_BUFFER_NULL);
+        tree->code_error |= CHECK_ERROR (!tree->file_database,           TREE_ERROR_POINTER_FILE_INFO_NULL);
+        tree->code_error |= CHECK_ERROR (tree->size < 0,                 TREE_ERROR_SIZE_SMALLER_ZERO);
+    }
 
-int decoder_list_error (struct Tree* tree)
-{
-    
+    return tree->code_error;
+#else
+    return GOOD_WORKING;
+#endif
 }
 
 //-----------------------------------------------------------------------------------
@@ -223,60 +233,46 @@ void tree_print (struct Knot* knot)
     printf ("}");
 }
 
-void tree_graph_node (struct Knot* knot, FILE* tree_log_graph)
+void knot_graph (struct Tree* tree, struct Knot* current_knot, FILE* tree_log_graph, int* count)
 {
-    static int number_node = 0;
-
-    if (!knot)
+    if (current_knot == nullptr)
     {
         return;
     }
-    fprintf(tree_log_graph, "\t\"NOD_%d\" [shape = \"record\", style = \"rounded, filled\", fontname = \"Helvetica-Bold\", fillcolor = \"#87CEFA\","
-		                    "\n\t\tlabel = \"prev = %p \\lcurrent = %p | {<left> left = %p| %s | <right> right = %p}\"]\n", 
-                            number_node, knot->prev, knot, knot->left, knot->string, knot->string);
-    number_node++;
 
-    if (knot->left)
-    {
-        tree_graph_node (knot->left, tree_log_graph);
-    }
-    
-    if (knot->right)
-    {
-        tree_graph_node (knot->right, tree_log_graph);
-    }
-}
+    (*count)++;
 
-void tree_graph_communications (struct Knot* knot, FILE* tree_log_graph)
-{
-    static int number_communications = 0;
-
-    if (!knot)
+    if (current_knot->right == nullptr && current_knot->left == nullptr)
     {
-        return;
+        fprintf(tree_log_graph, "\t\"%s\" [shape = \"record\", style = \"rounded, filled\", fontname = \"Helvetica-Bold\", fillcolor = \"#ee9b52\","
+		                        "\n\t\tlabel = \"prev = %p \\lcurrent = %p | {<left> left = %p| %s | <right> right = %p}\"]\n", 
+                                current_knot->string, current_knot->prev, current_knot, current_knot->left, current_knot->string, current_knot->right);
     }
-    if (knot->left != nullptr)
+    else 
     {
-        fprintf (tree_log_graph,    "\t\"NOD_%d\" -> \"NOD_%d\"[style = \"bold\", color = \"#df1b1bdf\"]\n", 
-                                    number_communications, number_communications + 1);
-        number_communications++;
-    }
-    else
-    {
-        number_communications--;
-        fprintf (tree_log_graph,    "\t\"NOD_%d\" -> \"NOD_%d\"[style = \"bold\", color = \"#df1b1bdf\"]\n", 
-                                    number_communications, number_communications+2);
-        number_communications += 2;
+        fprintf(tree_log_graph, "\t \"%s\" [shape = \"record\", style = \"rounded, filled\", fontname = \"Helvetica-Bold\", fillcolor = \"#87CEFA\","
+		                        "\n\t\tlabel = \"prev = %p \\lcurrent = %p | {<left> left = %p| %s | <right> right = %p}\"]\n", 
+                                current_knot->string, current_knot->prev, current_knot, current_knot->left, current_knot->string, current_knot->right);
     }
 
-    if (knot->left)
+    if (current_knot->left != nullptr)
     {
-        tree_graph_communications (knot->left, tree_log_graph);
+        fprintf(tree_log_graph, "\t \"%s\" -> \"%s\" [style = \"bold\", label=\"Да\"]\n", current_knot->string, current_knot->left->string);
     }
-    
-    if (knot->right)
+
+    if (current_knot->right != nullptr)
     {
-        tree_graph_communications (knot->right, tree_log_graph);
+        fprintf(tree_log_graph, "\t \"%s\" -> \"%s\" [style = \"bold\", label=\"Нет\"]\n", current_knot->string, current_knot->right->string);
+    }
+
+    if (current_knot->left  != nullptr) 
+    {
+        knot_graph(tree, current_knot->left, tree_log_graph, count);
+    }
+
+    if (current_knot->right != nullptr) 
+    {
+        knot_graph(tree, current_knot->right, tree_log_graph, count); 
     }
 }
 
@@ -285,24 +281,19 @@ int tree_graph_dump (struct Tree* tree)
     static int number_of_function_launches = 0;
 
     FILE* tree_log_graph = fopen ("graph/graph_log_tree.dot", "w");
-    if (tree_log_graph == nullptr)
-    {
-        printf ("ERROR FOPEN on line %d in list.cpp", __LINE__);
-        return ERROR_FILE_CLOSE;
-    }
 
     fprintf (tree_log_graph, "digraph G\n{\n");
     fprintf (tree_log_graph, "\tgraph [dpi = 300];\n");
     fprintf (tree_log_graph, "\trankdir = TB;\n");
 
-    tree_graph_node (tree->root, tree_log_graph);
-    tree_graph_communications (tree->root, tree_log_graph);
+    int count = 0;
+    knot_graph (tree, tree->root, tree_log_graph, &count);
 
     fprintf (tree_log_graph, "\n}");
 
     fclose (tree_log_graph);
 
-    char command[100] = "";
+    char command[MAX_LEN_STR] = "";
     sprintf (command, "dot -Tpng -ograph/graph_log_tree_%d.png graph/graph_log_tree.dot", number_of_function_launches);
 
     system(command);
@@ -317,5 +308,5 @@ int tree_graph_dump (struct Tree* tree)
 
     number_of_function_launches++;
 
-    return GOOD_WORKING;
+    return number_of_function_launches - 1;
 }

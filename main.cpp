@@ -3,7 +3,7 @@
 int main ()
 {
     setlocale (LC_ALL, "ru_RU.cp1251");
-    char name_database[NAME_MAX_LEN] = "database_akinator.txt";
+    char name_database[MAX_LEN_STR] = "database_akinator.txt";
 
     struct Text buffer_database = {};
     struct FileInfo file_database = {.file_name = name_database};
