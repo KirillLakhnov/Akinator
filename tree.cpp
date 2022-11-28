@@ -74,12 +74,15 @@ void tree_creater (struct Tree* tree)
 
     struct Knot* current_knot = tree->root;
 
+    //исправить
     char* bracket = (char*) calloc (2, sizeof(char));
     if (bracket == nullptr)
     {
         printf ("Error calloc in tree.cpp on line = %d", __LINE__);
         tree->code_error |= TREE_ERROR_CALLOC;         
     }
+
+    //исправить
 
     while (tree->buffer_database->file_buffer + tree->buffer_database->size_buffer > tree->current_position_buffer)
     {
@@ -115,7 +118,7 @@ void tree_creater (struct Tree* tree)
         else
         {
             tree->code_error |= TREE_ERROR_SYNTAX_IN_BASE; 
-            abort ();
+            ASSERT_OK_TREE (tree);
         }
     }
 
@@ -283,7 +286,7 @@ int tree_graph_dump (struct Tree* tree)
     FILE* tree_log_graph = fopen ("graph/graph_log_tree.dot", "w");
 
     fprintf (tree_log_graph, "digraph G\n{\n");
-    fprintf (tree_log_graph, "\tgraph [dpi = 300];\n");
+    fprintf (tree_log_graph, "\tgraph [dpi = 250];\n");
     fprintf (tree_log_graph, "\trankdir = TB;\n");
 
     int count = 0;

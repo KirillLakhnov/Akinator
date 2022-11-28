@@ -9,7 +9,7 @@ int main ()
     struct FileInfo file_database = {.file_name = name_database};
     struct Tree tree_akinator = {.file_database = &file_database, .buffer_database = &buffer_database};
 
-    tree_graph_dump (&tree_akinator);
+    //tree_graph_dump (&tree_akinator);
 
     main_menu (&tree_akinator);
 

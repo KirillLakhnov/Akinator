@@ -21,8 +21,6 @@ void main_menu (struct Tree* tree)
     tree_creater (tree);
 
     processing_selected_mode (tree);
-
-    ASSERT_OK_TREE (tree);
 }
 
 void processing_selected_mode (struct Tree* tree)
@@ -45,6 +43,7 @@ void processing_selected_mode (struct Tree* tree)
         case COMMAND_4:
             graph_open (tree);
             screen_clear ();
+            main_menu (tree);
             break;
         case COMMAND_5:
             screen_clear ();
@@ -56,8 +55,6 @@ void processing_selected_mode (struct Tree* tree)
             processing_selected_mode (tree); 
             break;
     }
-
-    ASSERT_OK_TREE (tree);
 }
 
 //---------------------------------------------------------------------------------
@@ -74,8 +71,6 @@ void guessing_menu (struct Tree* tree)
     struct Knot* current_knot = tree->root;
 
     guessing_mode (tree, current_knot);
-
-    ASSERT_OK_TREE (tree);
 }
 
 void guessing_mode (struct Tree* tree, struct Knot* current_knot)
@@ -90,7 +85,6 @@ void guessing_mode (struct Tree* tree, struct Knot* current_knot)
     
     processing_selected_response (tree, current_knot);
 
-    ASSERT_OK_TREE (tree);
 }
 
 void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
@@ -117,6 +111,7 @@ void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
                 guessing_mode (tree, current_knot->left);
             }                    
             break;
+
         case ANSWER_NO:
             if (current_knot->right == nullptr)
             {
@@ -148,15 +143,16 @@ void processing_selected_response (struct Tree* tree, struct Knot* current_knot)
             else
             {
                 guessing_mode (tree, current_knot->right);
+                // заменить рекурсию циклом
             }          
             break;
+
         default: 
             printf("Неверный ответ %c, попробуй еще раз\n", answer);
             processing_selected_response (tree, current_knot);
             break;
     }
 
-    ASSERT_OK_TREE (tree);
 }
 
 void processing_selected_mode_after_game (struct Tree* tree)
@@ -182,8 +178,6 @@ void processing_selected_mode_after_game (struct Tree* tree)
             processing_selected_mode_after_game (tree);
             break;
     }
-
-    ASSERT_OK_TREE (tree);
 }
 
 void menu_after_game (struct Tree* tree)
@@ -199,7 +193,6 @@ void menu_after_game (struct Tree* tree)
 
     processing_selected_mode_after_game (tree);
 
-    ASSERT_OK_TREE (tree);
 }
 
 //---------------------------------------------------------------------------------
@@ -214,8 +207,6 @@ void definition_menu (struct Tree* tree)
     SPEECH_SYNTHESIZER (work_synthesizer, "Введите слово, определение которого хотите посмотреть.");
 
     definition_mode (tree);
-
-    ASSERT_OK_TREE (tree);
 }
 
 void definition_mode (struct Tree* tree)
@@ -289,8 +280,6 @@ void definition_mode (struct Tree* tree)
     }
 
     menu_after_definition (tree);
-
-    ASSERT_OK_TREE (tree);
 }
 
 void menu_after_definition (struct Tree* tree)
@@ -304,8 +293,6 @@ void menu_after_definition (struct Tree* tree)
     SPEECH_SYNTHESIZER (work_synthesizer, "Хотите узнавать кто есть кто? Или попробуете что-то другое?");
 
     processing_selected_mode_after_definition (tree);
-
-    ASSERT_OK_TREE (tree);
 }
 
 void processing_selected_mode_after_definition (struct Tree* tree)
@@ -327,8 +314,6 @@ void processing_selected_mode_after_definition (struct Tree* tree)
             processing_selected_mode_after_game (tree);
             break;
     }
-
-    ASSERT_OK_TREE (tree);
 }
 
 //---------------------------------------------------------------------------------
@@ -343,8 +328,6 @@ void object_comparison_menu (struct Tree* tree)
     SPEECH_SYNTHESIZER (work_synthesizer, "Введите 2 слова, которые хотите сравнить");
 
     object_comparison_mode (tree);
-
-    ASSERT_OK_TREE (tree);
 }
 
 void object_comparison_mode (struct Tree* tree)
@@ -481,8 +464,6 @@ void object_comparison_mode (struct Tree* tree)
     }
 
     menu_after_comparison (tree);
-
-    ASSERT_OK_TREE (tree);
 }
 
 void menu_after_comparison (struct Tree* tree)
@@ -496,8 +477,6 @@ void menu_after_comparison (struct Tree* tree)
     SPEECH_SYNTHESIZER (work_synthesizer, "Хотите узнавать кто есть кто? Или попробуете что-то другое?");
 
     processing_selected_mode_after_comparison (tree);
-
-    ASSERT_OK_TREE (tree);
 }
 
 void processing_selected_mode_after_comparison (struct Tree* tree)
@@ -519,8 +498,6 @@ void processing_selected_mode_after_comparison (struct Tree* tree)
             processing_selected_mode_after_game (tree);
             break;
     }
-
-    ASSERT_OK_TREE (tree);
 }
 
 //---------------------------------------------------------------------------------
@@ -584,8 +561,6 @@ void graph_open (struct Tree* tree)
     char command [MAX_STR_SIZE] = "";
     snprintf (command, MAX_STR_SIZE, "open graph/graph_log_tree_%d.png", number_graph);
     system (command);
-
-    ASSERT_OK_TREE (tree);
 }
 
 //---------------------------------------------------------------------------------
@@ -694,6 +669,7 @@ struct Stack* tree_search (struct Tree* tree, const char* object)
     assert (object);
 
     struct Stack* path_element = (struct Stack*) calloc (1, sizeof(struct Stack));
+    //Зачем калочить структуру
     if (path_element == nullptr)
     {
         printf ("Error calloc in tree.cpp on line = %d", __LINE__);
